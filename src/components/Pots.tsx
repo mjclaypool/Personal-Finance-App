@@ -39,21 +39,23 @@ const Pots = () => {
           start={<SectionTitle title="Pots" />}
           end={<Button label="See Details" type="tertiary"/>}
         />
-        <div className="flex items-center gap-4 bg-p-beige100 rounded-xl px-200 py-250">
-          <div className="py-[2px] px-[6px]">
-            <img src={potIcon} alt="Icon for money pots" />
-          </div>
-          <div className="flex flex-col gap-[11px]">
-            <h3 className="text-preset4 text-p-grey500">Total Saved</h3>
-            <p className="text-preset1 text-p-grey900">{totalSaved}</p>
-          </div>
-        </div>
-        <div className="flex flex-col flex-wrap gap-4 max-h-[102px]">
-          {potsForDashboard.map(pot => (
-            <div key={pot.name}>
-              <CategorySummary name={pot.name} total={formatter.format(pot.total)} theme={pot.theme} />
+        <div className="flex flex-col md:flex-row gap-5">
+          <div className="flex items-center gap-4 bg-p-beige100 rounded-xl px-200 py-250 md:min-w-[247px]">
+            <div className="py-[2px] px-[6px]">
+              <img src={potIcon} alt="Icon for money pots" />
             </div>
-          ))}
+            <div className="flex flex-col gap-[11px]">
+              <h3 className="text-preset4 text-p-grey500">Total Saved</h3>
+              <p className="text-preset1 text-p-grey900">{totalSaved}</p>
+            </div>
+          </div>
+          <div className="flex flex-col flex-wrap gap-4 max-h-[102px]">
+            {potsForDashboard.map(pot => (
+              <div key={pot.name} className="md:w-[170px]">
+                <CategorySummary name={pot.name} total={formatter.format(pot.total)} theme={pot.theme} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </SectionWrapper>

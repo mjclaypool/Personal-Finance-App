@@ -16,7 +16,7 @@ const SummaryItem = (props: summaryItemProps) => {
   });
 
   return (
-    <div className={`${colorVariants[props.theme]} rounded-xl p-250`}>
+    <div className={`${colorVariants[props.theme]} flex-1 rounded-xl p-250`}>
       <h2 className="text-preset4 pb-150">{props.category}</h2>
       <p className="text-preset1">{formatter.format(props.balance)}</p>
     </div>
