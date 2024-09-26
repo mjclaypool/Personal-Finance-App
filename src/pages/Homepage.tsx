@@ -9,10 +9,16 @@ const Homepage = () => {
     <>
       <h1 className="text-preset1 text-p-grey900">Overview</h1>
       <Summary />
-      <Pots />
-      <Transactions />
-      <Budgets />
-      <Recurring />
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
+          <Pots />
+          <Transactions />
+        </div>
+        <div className="flex flex-col gap-4">
+          <Budgets />
+          <Recurring />
+        </div>
+      </div>
     </>
   )
 }
