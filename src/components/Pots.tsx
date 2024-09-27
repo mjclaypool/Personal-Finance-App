@@ -33,10 +33,10 @@ const Pots = () => {
   }
 
   return (
-    <SectionWrapper>
+    <SectionWrapper color="white">
       <div className="flex flex-col gap-5">
         <SectionHeading
-          start={<SectionTitle title="Pots" />}
+          start={<SectionTitle title="Pots" size="lg" />}
           end={<Button label="See Details" type="tertiary"/>}
         />
         <div className="flex flex-col md:flex-row gap-5">

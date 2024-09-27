@@ -1,8 +1,10 @@
 type transactionProps = {
   avatar: string,
+  avatarVariableVis?: boolean
   name: string,
   date: string,
   amount: number,
+  size: string
 }
 
 const TransactionItem = (props: transactionProps) => {
@@ -16,13 +18,22 @@ const TransactionItem = (props: transactionProps) => {
     currency: 'USD',
   });
 
+  const sizeVariants: {[key: string]: string} = {
+    lg: "gap-2",
+    md: "gap-1"
+  }
+
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-4">
-        <img src={props.avatar} alt="avatar image" className="h-8 object-cover rounded-full" />
+        {props.avatarVariableVis ?
+          <img src={props.avatar} alt="avatar image" className="hidden md:block h-8 object-cover rounded-full" />
+        :
+          <img src={props.avatar} alt="avatar image" className="h-8 object-cover rounded-full" />
+        }
         <h3 className="text-preset4 text-p-grey900 font-bold">{props.name}</h3>
       </div>
-      <div className="flex flex-col items-end gap-2">
+      <div className={`${sizeVariants[props.size]} flex flex-col items-end`}>
         {props.amount > 0 ?
           <p className="text-preset4 text-s-green font-bold">+{formatter.format(props.amount)}</p>
         :

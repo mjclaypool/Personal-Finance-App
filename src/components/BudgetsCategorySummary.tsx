@@ -2,6 +2,15 @@ import CategorySummary from "../components/CategorySummary";
 import { transactions } from "../data/data.json";
 
 const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string} ) => {
+  const colorVariants: {[key: string]: string} = {
+    "#277C78": "bg-s-green",
+    "#F2CDAC": "bg-s-yellow",
+    "#82C9D7": "bg-s-cyan",
+    "#626070": "bg-s-navy",
+    "#C94736": "bg-s-red",
+    "#826CB0": "bg-s-purple"
+  }
+
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -9,6 +18,12 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
 
   const spent = getSpending(props.cat);
   const avail = props.max - spent;
+  let percentSpent = "";
+  if ((spent / props.max) * 100 > 100) {
+    percentSpent = '100%';
+  } else {
+    percentSpent = ((spent / props.max) * 100).toString() + '%';
+  }
 
   function getSpending(category: string) {
     let amount = 0;
@@ -23,6 +38,9 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
   return (
     <>
       <p className="text-preset4 text-p-grey500">Maximum of {formatter.format(props.max)}</p>
+      <div className="h-8 bg-p-beige100 rounded-[4px] p-1">
+        <div className={`${colorVariants[props.theme]} h-full rounded-[4px]`} style={{ width: percentSpent }} />
+      </div>
       <div className="flex">
         <div className="flex-1">
           <CategorySummary name="Spent" total={formatter.format(spent)} theme={props.theme} />

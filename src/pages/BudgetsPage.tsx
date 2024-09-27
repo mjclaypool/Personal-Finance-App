@@ -3,20 +3,24 @@ import SectionWrapper from "../components/SectionWrapper";
 import SectionHeading from "../components/SectionHeading";
 import SectionTitle from "../components/SectionTitle";
 import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
+import BudgetsCategorySpending from "../components/BudgetsCategorySpending";
 import Button from "../components/Button";
 import { budgets } from "../data/data.json";
 
 const BudgetsPage = () => {
   return (
     <div className="flex flex-col gap-8">
-      <PageHeading pageTitle="Budgets" button={<Button label="Add New Budget" type="primary"/>} />
+      <PageHeading
+        pageTitle="Budgets"
+        button={<Button label="+ Add New Budget" type="primary"/>}
+      />
       <div className="flex flex-col gap-6">
         {budgets.map((budget) => (
           <div key={budget.category}>
-            <SectionWrapper>
+            <SectionWrapper color="white">
               <div className="flex flex-col gap-5">
                 <SectionHeading
-                  start={<SectionTitle title={budget.category} theme={budget.theme} />}
+                  start={<SectionTitle title={budget.category} size="lg" theme={budget.theme} />}
                   end={<Button type="ellipse"/>}
                 />
                 <BudgetsCategorySummary
@@ -24,6 +28,7 @@ const BudgetsPage = () => {
                   max={budget.maximum}
                   theme={budget.theme}
                 />
+                <BudgetsCategorySpending cat={budget.category} />
               </div>
             </SectionWrapper>
           </div>

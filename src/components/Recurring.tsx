@@ -33,10 +33,10 @@ const Recurring = () => {
   }
 
   return (
-    <SectionWrapper>
+    <SectionWrapper color="white">
       <div className="flex flex-col gap-8">
         <SectionHeading
-          start={<SectionTitle title="Recurring Bills" />}
+          start={<SectionTitle title="Recurring Bills" size="lg" />}
           end={<Button label="See Details" type="tertiary"/>}
         />
         <div className="flex flex-col gap-3">

@@ -20,10 +20,10 @@ const Budgets = () => {
   });
 
   return (
-    <SectionWrapper>
+    <SectionWrapper color="white">
       <div className="flex flex-col gap-5">
         <SectionHeading
-          start={<SectionTitle title="Budgets" />}
+          start={<SectionTitle title="Budgets" size="lg" />}
           end={<Button label="See Details" type="tertiary"/>}
         />
         <div className="flex flex-wrap gap-y-4">

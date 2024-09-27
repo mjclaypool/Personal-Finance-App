@@ -6,7 +6,12 @@ const Button = (props: {label?: string, type: string}) => {
     <>
       {props.type == "primary" &&
         <button type="button" className="text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200">
-          + {props.label}
+          {props.label}
+        </button>
+      }
+      {props.type == "secondary" &&
+        <button type="button" className="flex-1 text-preset4 text-p-grey900 font-bold bg-p-beige100 rounded-lg p-200">
+          {props.label}
         </button>
       }
       {props.type == "tertiary" &&

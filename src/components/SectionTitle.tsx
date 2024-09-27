@@ -1,4 +1,4 @@
-const SectionTitle = (props: {title: string, theme?: string}) => {
+const SectionTitle = (props: {title: string, size: string, theme?: string}) => {
   const colorVariants: {[key: string]: string} = {
     "#277C78": "bg-s-green",
     "#F2CDAC": "bg-s-yellow",
@@ -8,10 +8,15 @@ const SectionTitle = (props: {title: string, theme?: string}) => {
     "#826CB0": "bg-s-purple"
   }
 
+  const sizeVariants: {[key: string]: string} = {
+    lg: "text-preset2",
+    md: "text-preset3"
+  }
+
   return (
     <div className="flex items-center gap-4">
       {props.theme && <div className={`${colorVariants[props.theme]} h-4 w-4 rounded-full`}/>}
-      <h2 className="text-preset2 text-p-grey900">{props.title}</h2>
+      <h2 className={`${sizeVariants[props.size]} text-p-grey900`}>{props.title}</h2>
     </div>
   )
 }

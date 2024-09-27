@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Homepage from './pages/Homepage';
-import PotsPage from './pages/Potspage';
-import TransactionsPage from './pages/Transactionspage';
-import BudgetsPage from './pages/Budgetspage';
-import RecurringBillsPage from './pages/RecurringBillspage';
+import PotsPage from './pages/PotsPage';
+import TransactionsPage from './pages/TransactionsPage';
+import BudgetsPage from './pages/BudgetsPage';
+import RecurringBillsPage from './pages/RecurringBillsPage';
 import NavBar from './components/NavBar';
 import './index.css'
 

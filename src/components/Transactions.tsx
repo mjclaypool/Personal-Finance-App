@@ -18,10 +18,10 @@ const Transactions = () => {
   const transactionsForDashboard: transaction[] = transactions.slice(0, 5);
 
   return (
-    <SectionWrapper>
+    <SectionWrapper color="white">
       <div className="flex flex-col gap-8">
         <SectionHeading
-          start={<SectionTitle title="Transactions" />}
+          start={<SectionTitle title="Transactions" size="lg" />}
           end={<Button label="View All" type="tertiary"/>}
         />
         <div>
@@ -32,6 +32,7 @@ const Transactions = () => {
                 name={transaction.name}
                 date={transaction.date}
                 amount={transaction.amount}
+                size="lg"
               />
               {transactionsForDashboard.indexOf(transaction) < (transactionsForDashboard.length - 1) &&
                 <div className="h-[1px] bg-p-grey100 my-5"/>
