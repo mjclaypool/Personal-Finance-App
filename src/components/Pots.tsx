@@ -3,6 +3,7 @@ import SectionHeading from "./SectionHeading";
 import SectionTitle from "./SectionTitle";
 import CategorySummary from "./CategorySummary";
 import Button from "./Button";
+import { formatterWithoutCents } from "../utils/currencyFormatter";
 import { pots } from "../data/data.json";
 
 import potIcon from "../assets/images/icon-pot.svg"
@@ -15,12 +16,6 @@ type potData = {
 }
 
 const Pots = () => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0
-  });
-
   const potsForDashboard: potData[] = pots.slice(0, 4);
   const totalSaved: string = getTotal(pots);
 
@@ -29,7 +24,7 @@ const Pots = () => {
     for (let i=0; i<data.length; i++) {
       total += data[i].total;
     }
-    return formatter.format(total);
+    return formatterWithoutCents.format(total);
   }
 
   return (
@@ -52,7 +47,7 @@ const Pots = () => {
           <div className="flex flex-col flex-wrap gap-4 max-h-[102px]">
             {potsForDashboard.map(pot => (
               <div key={pot.name} className="md:w-[170px]">
-                <CategorySummary name={pot.name} total={formatter.format(pot.total)} theme={pot.theme} />
+                <CategorySummary name={pot.name} total={formatterWithoutCents.format(pot.total)} theme={pot.theme} />
               </div>
             ))}
           </div>

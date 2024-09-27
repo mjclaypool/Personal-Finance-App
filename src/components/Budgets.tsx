@@ -3,6 +3,7 @@ import SectionHeading from "./SectionHeading";
 import SectionTitle from "./SectionTitle";
 import CategorySummary from "./CategorySummary";
 import Button from "./Button";
+import { formatterWithCents } from "../utils/currencyFormatter";
 import { budgets } from "../data/data.json";
 
 type budgetData = {
@@ -14,11 +15,6 @@ type budgetData = {
 const Budgets = () => {
   const budgetsForDashboard: budgetData = budgets.slice(0, 4);
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  });
-
   return (
     <SectionWrapper color="white">
       <div className="flex flex-col gap-5">
@@ -29,7 +25,7 @@ const Budgets = () => {
         <div className="flex flex-wrap gap-y-4">
           {budgetsForDashboard.map(budget => (
             <div key={budget.category} className="w-1/2">
-              <CategorySummary name={budget.category} total={formatter.format(budget.maximum)} theme={budget.theme} />
+              <CategorySummary name={budget.category} total={formatterWithCents.format(budget.maximum)} theme={budget.theme} />
             </div>
           ))}
         </div>

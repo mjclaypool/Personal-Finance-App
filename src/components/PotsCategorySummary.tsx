@@ -1,3 +1,5 @@
+import { formatterWithCents } from "../utils/currencyFormatter";
+
 const PotsCategorySummary = (props: {total: number, target: number, theme: string}) => {
   const colorVariants: {[key: string]: string} = {
     "#277C78": "bg-s-green",
@@ -8,11 +10,6 @@ const PotsCategorySummary = (props: {total: number, target: number, theme: strin
     "#826CB0": "bg-s-purple"
   }
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  });
-
   const percentSaved = (Math.round(props.total * 100)  / props.target).toFixed(2);
   const percentSavedString = percentSaved.toString() + '%';
 
@@ -20,7 +17,7 @@ const PotsCategorySummary = (props: {total: number, target: number, theme: strin
     <div className="flex flex-col gap-4 my-[10.5px]">
       <div className="flex justify-between items-center">
         <h3 className="text-preset4 text-p-grey500">Total Saved</h3>
-        <p className="text-preset1 text-p-grey900">{formatter.format(props.total)}</p>
+        <p className="text-preset1 text-p-grey900">{formatterWithCents.format(props.total)}</p>
       </div>
       <div className="flex flex-col gap-[13px]">
         <div className="h-2 bg-p-beige100 rounded-full">

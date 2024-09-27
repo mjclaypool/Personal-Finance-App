@@ -1,4 +1,5 @@
 import CategorySummary from "../components/CategorySummary";
+import { formatterWithCents } from "../utils/currencyFormatter";
 import { transactions } from "../data/data.json";
 
 const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string} ) => {
@@ -10,11 +11,6 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
     "#C94736": "bg-s-red",
     "#826CB0": "bg-s-purple"
   }
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   const spent = getSpending(props.cat);
   const avail = props.max - spent;
@@ -37,16 +33,16 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
 
   return (
     <>
-      <p className="text-preset4 text-p-grey500">Maximum of {formatter.format(props.max)}</p>
+      <p className="text-preset4 text-p-grey500">Maximum of {formatterWithCents.format(props.max)}</p>
       <div className="h-8 bg-p-beige100 rounded-[4px] p-1">
         <div className={`${colorVariants[props.theme]} h-full rounded-[4px]`} style={{ width: percentSpent }} />
       </div>
       <div className="flex">
         <div className="flex-1">
-          <CategorySummary name="Spent" total={formatter.format(spent)} theme={props.theme} />
+          <CategorySummary name="Spent" total={formatterWithCents.format(spent)} theme={props.theme} />
         </div>
         <div className="flex-1">
-          <CategorySummary name="Free" total={avail < 0 ? formatter.format(0) : formatter.format(avail)} theme="free" />
+          <CategorySummary name="Free" total={avail < 0 ? formatterWithCents.format(0) : formatterWithCents.format(avail)} theme="free" />
         </div>
       </div>
     </>

@@ -1,10 +1,13 @@
+import { formatterWithCents } from "../utils/currencyFormatter";
+
 type transactionProps = {
   avatar: string,
-  avatarVariableVis?: boolean
+  avatarVariableVis?: boolean,
+  category?: string,
   name: string,
   date: string,
   amount: number,
-  size: string
+  size: string,
 }
 
 const TransactionItem = (props: transactionProps) => {
@@ -12,11 +15,6 @@ const TransactionItem = (props: transactionProps) => {
   const month = Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(props.date.substring(5, 7)));
   const year = props.date.substring(0, 4);
   const date = day + " " + month + ", " + year;
-
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
 
   const sizeVariants: {[key: string]: string} = {
     lg: "gap-2",
@@ -31,13 +29,16 @@ const TransactionItem = (props: transactionProps) => {
         :
           <img src={props.avatar} alt="avatar image" className="h-8 object-cover rounded-full" />
         }
-        <h3 className="text-preset4 text-p-grey900 font-bold">{props.name}</h3>
+        <div className="flex flex-col">
+          <h3 className="text-preset4 text-p-grey900 font-bold">{props.name}</h3>
+          {props.category && <p className="text-preset5 text-p-grey500">{props.category}</p>}
+        </div>
       </div>
       <div className={`${sizeVariants[props.size]} flex flex-col items-end`}>
         {props.amount > 0 ?
-          <p className="text-preset4 text-s-green font-bold">+{formatter.format(props.amount)}</p>
+          <p className="text-preset4 text-s-green font-bold">+{formatterWithCents.format(props.amount)}</p>
         :
-          <p className="text-preset4 text-p-grey900 font-bold">{formatter.format(props.amount)}</p>
+          <p className="text-preset4 text-p-grey900 font-bold">{formatterWithCents.format(props.amount)}</p>
         }
         <p className="text-preset5 text-p-grey500">{date}</p>
       </div>
