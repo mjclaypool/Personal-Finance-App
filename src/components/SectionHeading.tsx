@@ -7,7 +7,7 @@ type headingProps = {
 
 const SectionHeading = (props: headingProps) => {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between items-center">
       {props.start}
       {props.end}
     </div>

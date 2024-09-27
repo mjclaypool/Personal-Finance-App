@@ -1,6 +1,6 @@
 type categorySummProps = {
   name: string,
-  total: string,
+  total: number,
   theme: string
 }
 
@@ -11,7 +11,8 @@ const CategorySummary = (props: categorySummProps) => {
     "#82C9D7": "bg-s-cyan",
     "#626070": "bg-s-navy",
     "#C94736": "bg-s-red",
-    "#826CB0": "bg-s-purple"
+    "#826CB0": "bg-s-purple",
+    "free": "bg-p-beige100"
   }
 
   return (

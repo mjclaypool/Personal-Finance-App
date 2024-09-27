@@ -4,6 +4,11 @@ import ellipsisIcon from "../assets/images/icon-ellipsis.svg";
 const Button = (props: {label?: string, type: string}) => {
   return (
     <>
+      {props.type == "primary" &&
+        <button type="button" className="text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200">
+          + {props.label}
+        </button>
+      }
       {props.type == "tertiary" &&
         <div className="flex items-center gap-3 text-preset4 text-p-grey500">
           <p>{props.label}</p>

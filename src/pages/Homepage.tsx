@@ -1,3 +1,4 @@
+import PageHeading from "../components/PageHeading";
 import Summary from "../components/Summary";
 import Pots from "../components/Pots";
 import Transactions from "../components/Transactions";
@@ -7,7 +8,7 @@ import Recurring from "../components/Recurring";
 const Homepage = () => {
   return (
     <>
-      <h1 className="text-preset1 text-p-grey900">Overview</h1>
+      <PageHeading pageTitle="Overview" />
       <Summary />
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
