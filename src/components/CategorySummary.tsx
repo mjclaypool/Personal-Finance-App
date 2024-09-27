@@ -1,6 +1,6 @@
 type categorySummProps = {
   name: string,
-  total: number,
+  total: string,
   theme: string
 }
 
