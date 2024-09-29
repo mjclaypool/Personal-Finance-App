@@ -1,10 +1,18 @@
-import PageHeading from "../components/PageHeading";
-import SectionWrapper from "../components/SectionWrapper";
-import SectionHeading from "../components/SectionHeading";
-import SectionTitle from "../components/SectionTitle";
+import Button from "../UI/Button";
+import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
-import Button from "../components/Button";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
+
 import { pots } from "../data/data.json";
+
+// Pots Page
+//
+// -- Allows the user to add new pots categories.
+// -- Displays each pot's savings details, including the amount saved and the target amount.
+// ---- Allows the user to edit/delete individual pot categories.
+// ---- Allows the user to add/withdraw money from individual pot categories.
 
 const PotsPage = () => {
   return (

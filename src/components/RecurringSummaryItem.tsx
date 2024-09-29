@@ -1,5 +1,11 @@
 import { formatterWithCents } from "../utils/currencyFormatter";
 
+// RecurringSummaryItem component
+//
+// Used in: RecurringSummary.tsx
+// Function:
+// -- Displays the title, quantity, and total for a given recurring bill category.
+
 type summaryItemProps = {
   title: string,
   qty: number,

@@ -1,11 +1,19 @@
-import PageHeading from "../components/PageHeading";
-import SectionWrapper from "../components/SectionWrapper";
-import SectionHeading from "../components/SectionHeading";
-import SectionTitle from "../components/SectionTitle";
-import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
 import BudgetsCategorySpending from "../components/BudgetsCategorySpending";
-import Button from "../components/Button";
+import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
+import Button from "../UI/Button";
+import PageHeading from "../UI/PageHeading";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
+
 import { budgets } from "../data/data.json";
+
+// Budgets Page
+//
+// -- Allows the user to add new budget categories.
+// -- Displays a spending summary of all budget categories, including a graph of total spending compared to budget limits.
+// -- Displays each category's spending details, including the most recent 3 transactions in each category.
+// ---- Allows the user to edit/delete individual budget categories.
 
 const BudgetsPage = () => {
   return (

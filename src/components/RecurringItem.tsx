@@ -3,6 +3,12 @@ import { formatterWithCents } from "../utils/currencyFormatter";
 import paidIcon from "../assets/images/icon-bill-paid.svg";
 import dueIcon from "../assets/images/icon-bill-due.svg";
 
+// RecurringItem component
+//
+// Used in: RecurringItemsList.tsx
+// Function:
+// -- Displays a given recurring bill, including a visual indicator for paid and due soon bills as applicable.
+
 type transactionProps = {
   avatar: string,
   name: string,

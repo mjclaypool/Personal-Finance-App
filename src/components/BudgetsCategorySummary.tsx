@@ -1,6 +1,13 @@
 import CategorySummary from "../components/CategorySummary";
+
 import { formatterWithCents } from "../utils/currencyFormatter";
 import { transactions } from "../data/data.json";
+
+// BudgetsCategorySummary component
+//
+// Used in: BudgetsPage.tsx
+// Function:
+// -- Displays the amount spent vs amount free for a given budget category, both in text and via a progress bar.
 
 const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string} ) => {
   const colorVariants: {[key: string]: string} = {

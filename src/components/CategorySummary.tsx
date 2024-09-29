@@ -1,3 +1,9 @@
+// CategorySummary component
+//
+// Used in: Pots.tsx, Budgets.tsx, BudgetsCategorySummary
+// Function:
+// -- Displays a vertical colored bar, followed by a category name and total.
+
 type categorySummProps = {
   name: string,
   total: string,

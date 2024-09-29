@@ -1,5 +1,12 @@
 import RecurringSummaryItem from "./RecurringSummaryItem";
+
 import { getPaidBills, getUpcomingBills, getDueSoonBills, getTotal } from "../utils/recurringBills";
+
+// RecurringSummary component
+//
+// Used in: RecurringBillsPage.tsx
+// Function:
+// -- Displays quantities and amounts of paid, upcoming, and due soon recurring bills.
 
 type transaction = {
   avatar: string,

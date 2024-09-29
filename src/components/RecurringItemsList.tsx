@@ -1,5 +1,11 @@
 import RecurringItem from "../components/RecurringItem";
 
+// RecurringItemsList component
+//
+// Used in: RecurringBillsPage.tsx
+// Function:
+// -- Displays a list of all recurring monthly bills.
+
 type transaction = {
   avatar: string,
   name: string,

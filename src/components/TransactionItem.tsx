@@ -1,5 +1,11 @@
 import { formatterWithCents } from "../utils/currencyFormatter";
 
+// TransactionItem component
+//
+// Used in: Transactions.tsx, BudgetsCategorySpending.tsx
+// Function:
+// -- Displays a transaction, including an image (optional), name, date, and amount.
+
 type transactionProps = {
   avatar: string,
   avatarVariableVis?: boolean,

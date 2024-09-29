@@ -1,5 +1,10 @@
 import { formatterWithCents } from "../utils/currencyFormatter";
 
+// RecurringCategoryItem component
+//
+// Used in: Recurring.tsx
+// Function: Displays either the user's paid, upcoming, or due soon bill totals.
+
 type summaryItemProps = {
   theme: string,
   category: string,

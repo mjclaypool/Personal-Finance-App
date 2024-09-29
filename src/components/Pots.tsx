@@ -1,12 +1,21 @@
-import SectionWrapper from "./SectionWrapper";
-import SectionHeading from "./SectionHeading";
-import SectionTitle from "./SectionTitle";
+import Button from "../UI/Button";
 import CategorySummary from "./CategorySummary";
-import Button from "./Button";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
+
 import { formatterWithoutCents } from "../utils/currencyFormatter";
 import { pots } from "../data/data.json";
 
-import potIcon from "../assets/images/icon-pot.svg"
+import potIcon from "../assets/images/icon-pot.svg";
+
+// Pots component
+//
+// Used in: Homepage.tsx
+// Function:
+// -- Displays the user's total savings across all pots.
+// -- Displays up to 4 pots and the amount saved in each.
+// -- Allows users to view additional pots details via the CTA.
 
 type potData = {
   name: string,

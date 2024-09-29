@@ -1,9 +1,17 @@
-import SectionWrapper from "./SectionWrapper";
-import SectionHeading from "./SectionHeading";
-import SectionTitle from "./SectionTitle";
+import Button from "../UI/Button";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItem from "./TransactionItem";
-import Button from "./Button";
+
 import { transactions } from "../data/data.json";
+
+// Transactions component
+//
+// Used in: Homepage.tsx
+// Function:
+// -- Displays the user's most recent 5 transactions.
+// -- Allows users to view additional transactions details via the CTA.
 
 type transaction = {
   avatar: string,

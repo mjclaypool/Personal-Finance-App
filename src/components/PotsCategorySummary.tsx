@@ -1,5 +1,11 @@
 import { formatterWithCents } from "../utils/currencyFormatter";
 
+// PotsCategorySummary component
+//
+// Used in: PotsPage.tsx
+// Function:
+// -- Displays a pot's savings details, including the amount saved and the target amount.
+
 const PotsCategorySummary = (props: {total: number, target: number, theme: string}) => {
   const colorVariants: {[key: string]: string} = {
     "#277C78": "bg-s-green",

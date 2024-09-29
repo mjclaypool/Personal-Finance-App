@@ -1,5 +1,10 @@
 import { formatterWithCents } from "../utils/currencyFormatter";
 
+// SummaryItem component
+//
+// Used in: Summary.tsx
+// Function: Displays either the user's current balance, income, or expenses.
+
 type summaryItemProps = {
   theme: string,
   category: string,

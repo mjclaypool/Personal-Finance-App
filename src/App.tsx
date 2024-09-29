@@ -4,7 +4,7 @@ import PotsPage from './pages/PotsPage';
 import TransactionsPage from './pages/TransactionsPage';
 import BudgetsPage from './pages/BudgetsPage';
 import RecurringBillsPage from './pages/RecurringBillsPage';
-import NavBar from './components/NavBar';
+import NavBar from './UI/NavBar';
 import './index.css'
 
 function App() {

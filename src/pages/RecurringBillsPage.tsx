@@ -1,8 +1,8 @@
-import PageHeading from "../components/PageHeading";
-import SectionWrapper from "../components/SectionWrapper";
+import PageHeading from "../UI/PageHeading";
 import RecurringSummary from "../components/RecurringSummary";
-import SearchBar from "../components/SearchBar";
 import RecurringItemsList from "../components/RecurringItemsList";
+import SearchBar from "../UI/SearchBar";
+import SectionWrapper from "../UI/SectionWrapper";
 
 import {
   getRecurring,
@@ -14,6 +14,12 @@ import { formatterWithCents } from "../utils/currencyFormatter";
 import { transactions } from "../data/data.json";
 
 import billsIcon from "../assets/images/icon-recurring-bills.svg";
+
+// Recurring Bills Page
+//
+// -- Displays quantities and amounts of paid, upcoming, and due soon recurring bills.
+// -- Displays a list of all recurring monthly bills, including visual indicators for paid and due soon bills.
+// -- Allows the user to search and sort recurring bills.
 
 const RecurringBillsPage = () => {
   const recurringBills = getRecurring(transactions);

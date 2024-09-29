@@ -1,5 +1,11 @@
 import SummaryItem from "./SummaryItem";
+
 import { balance } from "../data/data.json";
+
+// Summary component
+//
+// Used in: Homepage.tsx
+// Function: Displays the user's current balance, income, and expenses.
 
 const Summary = () => {
   return (

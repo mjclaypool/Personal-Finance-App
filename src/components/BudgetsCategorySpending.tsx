@@ -1,9 +1,16 @@
-import SectionWrapper from "../components/SectionWrapper";
-import SectionHeading from "../components/SectionHeading";
-import SectionTitle from "../components/SectionTitle";
+import Button from "../UI/Button";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItem from "./TransactionItem";
-import Button from "../components/Button";
+
 import { transactions } from "../data/data.json";
+
+// BudgetsCategorySpending component
+//
+// Used in: BudgetsPage.tsx
+// Function:
+// -- Displays the most recent 3 transactions for a given budget category.
 
 type transaction = {
   avatar: string,

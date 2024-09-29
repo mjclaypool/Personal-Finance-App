@@ -1,8 +1,9 @@
-import SectionWrapper from "./SectionWrapper";
-import SectionHeading from "./SectionHeading";
-import SectionTitle from "./SectionTitle";
+import Button from "../UI/Button";
 import RecurringCategoryItem from "./RecurringCategoryItem";
-import Button from "./Button";
+import SectionHeading from "../UI/SectionHeading";
+import SectionTitle from "../UI/SectionTitle";
+import SectionWrapper from "../UI/SectionWrapper";
+
 import {
   getRecurring,
   getRecurringStatus,
@@ -13,6 +14,13 @@ import {
   getDueSoonBills
 } from "../utils/recurringBills";
 import { transactions } from "../data/data.json";
+
+// Recurring component
+//
+// Used in: Homepage.tsx
+// Function:
+// -- Displays the user's paid, upcoming, and due soon bill totals.
+// -- Allows users to view additional recurring bills details via the CTA.
 
 const Recurring = () => {
   const recurringBills = getRecurring(transactions);

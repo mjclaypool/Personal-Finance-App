@@ -1,8 +1,14 @@
-import PageHeading from "../components/PageHeading";
-import SectionWrapper from "../components/SectionWrapper";
+import PageHeading from "../UI/PageHeading";
+import SearchBar from "../UI/SearchBar";
+import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItem from "../components/TransactionItem";
-import SearchBar from "../components/SearchBar";
+
 import { transactions } from "../data/data.json";
+
+// Transactions Page
+//
+// -- Displays 10 transactions at a time, allowing the user to view additional transactions by clicking through subpages.
+// -- Allows the user to search, filter, and sort transactions.
 
 const TransactionsPage = () => {
   return (
