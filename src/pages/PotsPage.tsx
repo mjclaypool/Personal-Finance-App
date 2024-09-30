@@ -1,11 +1,12 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
+import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-
-import { pots } from "../data/data.json";
 
 // Pots Page
 //
@@ -15,11 +16,13 @@ import { pots } from "../data/data.json";
 // ---- Allows the user to add/withdraw money from individual pot categories.
 
 const PotsPage = () => {
+  const finCtx = useContext(FinanceContext);
+
   return (
     <div className="flex flex-col gap-8">
       <PageHeading pageTitle="Pots" button={<Button label="+ Add New Pot" type="primary"/>} />
       <div className="flex flex-col gap-6">
-        {pots.map((pot) => (
+        {finCtx.pots.map((pot) => (
           <div key={pot.name}>
             <SectionWrapper color="white">
               <div className="flex flex-col gap-8">

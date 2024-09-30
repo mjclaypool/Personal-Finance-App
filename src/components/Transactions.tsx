@@ -1,10 +1,12 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItem from "./TransactionItem";
 
-import { transactions } from "../data/data.json";
+import FinanceContext from "../store/FinanceContext";
 
 // Transactions component
 //
@@ -23,7 +25,8 @@ type transaction = {
 }
 
 const Transactions = () => {
-  const transactionsForDashboard: transaction[] = transactions.slice(0, 5);
+  const finCtx = useContext(FinanceContext);
+  const transactionsForDashboard: transaction[] = finCtx.transactions.slice(0, 5);
 
   return (
     <SectionWrapper color="white">

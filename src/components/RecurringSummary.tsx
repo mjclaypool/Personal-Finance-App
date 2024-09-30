@@ -1,6 +1,10 @@
 import RecurringSummaryItem from "./RecurringSummaryItem";
-
-import { getPaidBills, getUpcomingBills, getDueSoonBills, getTotal } from "../utils/recurringBills";
+import {
+  getPaidBills,
+  getUpcomingBills,
+  getDueSoonBills,
+  getTotal
+} from "../utils/recurringBills";
 
 // RecurringSummary component
 //

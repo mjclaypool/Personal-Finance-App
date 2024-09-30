@@ -1,4 +1,6 @@
-import { formatterWithCents } from "../utils/currencyFormatter";
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 
 // TransactionItem component
 //
@@ -17,6 +19,7 @@ type transactionProps = {
 }
 
 const TransactionItem = (props: transactionProps) => {
+  const finCtx = useContext(FinanceContext);
   const day = props.date.substring(8, 10);
   const month = Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(props.date.substring(5, 7)));
   const year = props.date.substring(0, 4);
@@ -42,9 +45,9 @@ const TransactionItem = (props: transactionProps) => {
       </div>
       <div className={`${sizeVariants[props.size]} flex flex-col items-end`}>
         {props.amount > 0 ?
-          <p className="text-preset4 text-s-green font-bold">+{formatterWithCents.format(props.amount)}</p>
+          <p className="text-preset4 text-s-green font-bold">+{finCtx.formatWithCents(props.amount)}</p>
         :
-          <p className="text-preset4 text-p-grey900 font-bold">{formatterWithCents.format(props.amount)}</p>
+          <p className="text-preset4 text-p-grey900 font-bold">{finCtx.formatWithCents(props.amount)}</p>
         }
         <p className="text-preset5 text-p-grey500">{date}</p>
       </div>

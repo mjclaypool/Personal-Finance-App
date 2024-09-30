@@ -1,4 +1,6 @@
-import { formatterWithCents } from "../utils/currencyFormatter";
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 
 import paidIcon from "../assets/images/icon-bill-paid.svg";
 import dueIcon from "../assets/images/icon-bill-due.svg";
@@ -19,6 +21,7 @@ type transactionProps = {
 }
 
 const RecurringItem = (props: transactionProps) => {
+  const finCtx = useContext(FinanceContext);
   const dayDue = props.date.substring(8, 10);
   let day = dayDue;
   if (day.charAt(0) == '0') {
@@ -47,9 +50,9 @@ const RecurringItem = (props: transactionProps) => {
           {(!props.paid && (dayDue > "19" && dayDue < "25")) && <img src={dueIcon} alt="Due Icon" />}
         </div>
         {(!props.paid && (dayDue > "19" && dayDue < "25")) ?
-          <p className="text-preset4 text-s-red font-bold">{formatterWithCents.format(-props.amount)}</p>
+          <p className="text-preset4 text-s-red font-bold">{finCtx.formatWithCents(-props.amount)}</p>
         :
-          <p className="text-preset4 text-p-grey900 font-bold">{formatterWithCents.format(-props.amount)}</p>
+          <p className="text-preset4 text-p-grey900 font-bold">{finCtx.formatWithCents(-props.amount)}</p>
         }
       </div>
     </div>

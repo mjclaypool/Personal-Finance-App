@@ -1,17 +1,17 @@
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
 import RecurringSummary from "../components/RecurringSummary";
 import RecurringItemsList from "../components/RecurringItemsList";
 import SearchBar from "../UI/SearchBar";
 import SectionWrapper from "../UI/SectionWrapper";
-
 import {
   getRecurring,
   getRecurringStatus,
   getBillsWithStats,
   getTotal
 } from "../utils/recurringBills";
-import { formatterWithCents } from "../utils/currencyFormatter";
-import { transactions } from "../data/data.json";
 
 import billsIcon from "../assets/images/icon-recurring-bills.svg";
 
@@ -22,8 +22,9 @@ import billsIcon from "../assets/images/icon-recurring-bills.svg";
 // -- Allows the user to search and sort recurring bills.
 
 const RecurringBillsPage = () => {
-  const recurringBills = getRecurring(transactions);
-  const recurringBillsStatus = getRecurringStatus(transactions, recurringBills);
+  const finCtx = useContext(FinanceContext);
+  const recurringBills = getRecurring(finCtx.transactions);
+  const recurringBillsStatus = getRecurringStatus(finCtx.transactions, recurringBills);
   const recurringBillsWithStatus = getBillsWithStats(recurringBills, recurringBillsStatus);
   const totalBills = getTotal(recurringBillsWithStatus);
 
@@ -38,7 +39,7 @@ const RecurringBillsPage = () => {
                 <img src={billsIcon} alt="Recurring bills icon" />
                 <div className="flex flex-col gap-[11px]">
                   <h2 className="text-preset4 text-white">Total bills</h2>
-                  <p className="text-preset1 text-white">{formatterWithCents.format(-totalBills)}</p>
+                  <p className="text-preset1 text-white">{finCtx.formatWithCents(-totalBills)}</p>
                 </div>
               </div>
             </SectionWrapper>

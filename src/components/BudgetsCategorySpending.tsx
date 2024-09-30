@@ -1,10 +1,11 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
+import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItem from "./TransactionItem";
-
-import { transactions } from "../data/data.json";
 
 // BudgetsCategorySpending component
 //
@@ -22,14 +23,15 @@ type transaction = {
 }
 
 const BudgetsCategorySpending = (props: {cat: string}) => {
+  const finCtx = useContext(FinanceContext);
   const categoryTransactions = getSpending(props.cat);
   const transactionsForLatest: transaction[] = categoryTransactions.slice(0, 3);
 
   function getSpending(category: string) {
     let filteredArray = [];
-    for (let i=0; i < transactions.length; i++) {
-      if (transactions[i].category == category) {
-        filteredArray.push(transactions[i]);
+    for (let i=0; i < finCtx.transactions.length; i++) {
+      if (finCtx.transactions[i].category == category) {
+        filteredArray.push(finCtx.transactions[i]);
       }
     }
     return filteredArray;

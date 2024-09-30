@@ -1,11 +1,11 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
 import CategorySummary from "./CategorySummary";
+import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-
-import { formatterWithCents } from "../utils/currencyFormatter";
-import { budgets } from "../data/data.json";
 
 // Budgets component
 //
@@ -22,7 +22,8 @@ type budgetData = {
 }
 
 const Budgets = () => {
-  const budgetsForDashboard: budgetData[] = budgets.slice(0, 4);
+  const finCtx = useContext(FinanceContext);
+  const budgetsForDashboard: budgetData[] = finCtx.budgets.slice(0, 4);
 
   return (
     <SectionWrapper color="white">
@@ -34,7 +35,7 @@ const Budgets = () => {
         <div className="flex flex-wrap gap-y-4">
           {budgetsForDashboard.map(budget => (
             <div key={budget.category} className="w-1/2">
-              <CategorySummary name={budget.category} total={formatterWithCents.format(budget.maximum)} theme={budget.theme} />
+              <CategorySummary name={budget.category} total={finCtx.formatWithCents(budget.maximum)} theme={budget.theme} />
             </div>
           ))}
         </div>

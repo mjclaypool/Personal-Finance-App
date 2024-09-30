@@ -1,11 +1,11 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
 import CategorySummary from "./CategorySummary";
+import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-
-import { formatterWithoutCents } from "../utils/currencyFormatter";
-import { pots } from "../data/data.json";
 
 import potIcon from "../assets/images/icon-pot.svg";
 
@@ -25,15 +25,16 @@ type potData = {
 }
 
 const Pots = () => {
-  const potsForDashboard: potData[] = pots.slice(0, 4);
-  const totalSaved: string = getTotal(pots);
+  const finCtx = useContext(FinanceContext);
+  const potsForDashboard: potData[] = finCtx.pots.slice(0, 4);
+  const totalSaved: string = getTotal(finCtx.pots);
 
   function getTotal(data: potData[]) {
     let total: number = 0;
     for (let i=0; i<data.length; i++) {
       total += data[i].total;
     }
-    return formatterWithoutCents.format(total);
+    return finCtx.formatWithoutCents(total);
   }
 
   return (
@@ -56,7 +57,7 @@ const Pots = () => {
           <div className="flex flex-col flex-wrap gap-4 max-h-[102px]">
             {potsForDashboard.map(pot => (
               <div key={pot.name} className="md:w-[170px]">
-                <CategorySummary name={pot.name} total={formatterWithoutCents.format(pot.total)} theme={pot.theme} />
+                <CategorySummary name={pot.name} total={finCtx.formatWithoutCents(pot.total)} theme={pot.theme} />
               </div>
             ))}
           </div>

@@ -1,12 +1,13 @@
+import { useContext } from "react";
+
 import BudgetsCategorySpending from "../components/BudgetsCategorySpending";
 import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
 import Button from "../UI/Button";
+import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-
-import { budgets } from "../data/data.json";
 
 // Budgets Page
 //
@@ -16,6 +17,8 @@ import { budgets } from "../data/data.json";
 // ---- Allows the user to edit/delete individual budget categories.
 
 const BudgetsPage = () => {
+  const finCtx = useContext(FinanceContext);
+
   return (
     <div className="flex flex-col gap-8">
       <PageHeading
@@ -23,7 +26,7 @@ const BudgetsPage = () => {
         button={<Button label="+ Add New Budget" type="primary"/>}
       />
       <div className="flex flex-col gap-6">
-        {budgets.map((budget) => (
+        {finCtx.budgets.map((budget) => (
           <div key={budget.category}>
             <SectionWrapper color="white">
               <div className="flex flex-col gap-5">

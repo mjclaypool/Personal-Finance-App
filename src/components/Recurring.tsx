@@ -1,9 +1,11 @@
+import { useContext } from "react";
+
 import Button from "../UI/Button";
+import FinanceContext from "../store/FinanceContext";
 import RecurringCategoryItem from "./RecurringCategoryItem";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-
 import {
   getRecurring,
   getRecurringStatus,
@@ -13,7 +15,6 @@ import {
   getUpcomingBills,
   getDueSoonBills
 } from "../utils/recurringBills";
-import { transactions } from "../data/data.json";
 
 // Recurring component
 //
@@ -23,8 +24,9 @@ import { transactions } from "../data/data.json";
 // -- Allows users to view additional recurring bills details via the CTA.
 
 const Recurring = () => {
-  const recurringBills = getRecurring(transactions);
-  const recurringBillsStatus = getRecurringStatus(transactions, recurringBills);
+  const finCtx = useContext(FinanceContext);
+  const recurringBills = getRecurring(finCtx.transactions);
+  const recurringBillsStatus = getRecurringStatus(finCtx.transactions, recurringBills);
   const recurringBillsWithStatus = getBillsWithStats(recurringBills, recurringBillsStatus);
 
   const paidBills = getPaidBills(recurringBillsWithStatus);

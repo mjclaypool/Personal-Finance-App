@@ -1,4 +1,6 @@
-import { formatterWithCents } from "../utils/currencyFormatter";
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 
 // RecurringCategoryItem component
 //
@@ -12,6 +14,7 @@ type summaryItemProps = {
 }
 
 const RecurringCategoryItem = (props: summaryItemProps) => {
+  const finCtx = useContext(FinanceContext);
   const colorVariants: {[key: string]: string} = {
     green: "border-l-s-green",
     yellow: "border-l-s-yellow",
@@ -21,7 +24,7 @@ const RecurringCategoryItem = (props: summaryItemProps) => {
   return (
     <div className={`${colorVariants[props.theme]} border-l-4 bg-p-beige100 flex justify-between items-center rounded-xl p-250`}>
       <h2 className="text-preset4 text-p-grey500">{props.category}</h2>
-      <p className="text-preset4 text-p-grey900 font-bold">{formatterWithCents.format(props.balance)}</p>
+      <p className="text-preset4 text-p-grey900 font-bold">{finCtx.formatWithCents(props.balance)}</p>
     </div>
   )
 }
