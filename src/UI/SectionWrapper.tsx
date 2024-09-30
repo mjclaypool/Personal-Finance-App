@@ -8,7 +8,7 @@ const SectionWrapper = ( props: {color: string, children: JSX.Element} ) => {
   }
 
   return (
-    <div className={`${colorVariants[props.color]} rounded-xl`}>
+    <div className={`${colorVariants[props.color]} rounded-xl h-full`}>
       {props.children}
     </div>
   )

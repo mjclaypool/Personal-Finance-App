@@ -4,6 +4,12 @@ import { Doughnut } from "react-chartjs-2";
 
 import FinanceContext from "../store/FinanceContext";
 
+// BudgetsChart component
+//
+// Used in: Budgets.tsx, BudgetSpendingSummary.tsx
+// Function:
+// -- Displays a doughnut graph of the current month's spending in set budget categories.
+
 const BudgetsChart = () => {
   const finCtx = useContext(FinanceContext);
   const spendingTotal = finCtx.getBudgetSpendingTotal();

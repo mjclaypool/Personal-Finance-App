@@ -9,7 +9,7 @@ import TransactionItemAbbr from "./TransactionItemAbbr";
 
 // BudgetsCategorySpending component
 //
-// Used in: BudgetsPage.tsx
+// Used in: BudgetsCategorySummary.tsx
 // Function:
 // -- Displays the most recent 3 transactions for a given budget category.
 

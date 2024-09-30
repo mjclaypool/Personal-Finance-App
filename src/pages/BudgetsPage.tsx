@@ -1,13 +1,10 @@
 import { useContext } from "react";
 
-import BudgetsCategorySpending from "../components/BudgetsCategorySpending";
 import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
+import BudgetSpendingSummary from "../components/BudgetSpendingSummary";
 import Button from "../UI/Button";
 import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
-import SectionHeading from "../UI/SectionHeading";
-import SectionTitle from "../UI/SectionTitle";
-import SectionWrapper from "../UI/SectionWrapper";
 
 // Budgets Page
 //
@@ -25,25 +22,19 @@ const BudgetsPage = () => {
         pageTitle="Budgets"
         button={<Button label="+ Add New Budget" type="primary"/>}
       />
-      <div className="flex flex-col gap-6">
-        {finCtx.budgets.map((budget) => (
-          <div key={budget.category}>
-            <SectionWrapper color="white">
-              <div className="flex flex-col gap-5">
-                <SectionHeading
-                  start={<SectionTitle title={budget.category} size="lg" theme={budget.theme} />}
-                  end={<Button type="ellipse"/>}
-                />
-                <BudgetsCategorySummary
-                  cat={budget.category}
-                  max={budget.maximum}
-                  theme={budget.theme}
-                />
-                <BudgetsCategorySpending cat={budget.category} />
-              </div>
-            </SectionWrapper>
-          </div>
-        ))}
+      <div className="flex flex-col xl:flex-row gap-6">
+        <BudgetSpendingSummary />
+        <div className="flex flex-col gap-6 xl:flex-1">
+          {finCtx.budgets.map((budget) => (
+            <div key={budget.category}>
+              <BudgetsCategorySummary
+                cat={budget.category}
+                max={budget.maximum}
+                theme={budget.theme}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
