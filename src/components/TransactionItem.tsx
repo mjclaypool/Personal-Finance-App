@@ -4,7 +4,7 @@ import FinanceContext from "../store/FinanceContext";
 
 // TransactionItem component
 //
-// Used in: Transactions.tsx, BudgetsCategorySpending.tsx
+// Used in: Transactions.tsx, TransactionsPage.tsx, BudgetsCategorySpending.tsx
 // Function:
 // -- Displays a transaction, including an image (optional), name, date, and amount.
 

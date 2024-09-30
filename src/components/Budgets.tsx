@@ -1,5 +1,6 @@
 import { useContext } from "react";
 
+import BudgetsChart from "./BudgetsChart";
 import Button from "../UI/Button";
 import CategorySummary from "./CategorySummary";
 import FinanceContext from "../store/FinanceContext";
@@ -15,15 +16,8 @@ import SectionWrapper from "../UI/SectionWrapper";
 // -- Displays up to 4 budgets and the amount spent in each.
 // -- Allows users to view additional budgets details via the CTA.
 
-type budgetData = {
-  category: string,
-  maximum: number,
-  theme: string
-}
-
 const Budgets = () => {
   const finCtx = useContext(FinanceContext);
-  const budgetsForDashboard: budgetData[] = finCtx.budgets.slice(0, 4);
 
   return (
     <SectionWrapper color="white">
@@ -32,12 +26,15 @@ const Budgets = () => {
           start={<SectionTitle title="Budgets" size="lg" />}
           end={<Button label="See Details" type="tertiary"/>}
         />
-        <div className="flex flex-wrap gap-y-4">
-          {budgetsForDashboard.map(budget => (
-            <div key={budget.category} className="w-1/2">
-              <CategorySummary name={budget.category} total={finCtx.formatWithCents(budget.maximum)} theme={budget.theme} />
-            </div>
-          ))}
+        <div className="flex flex-col md:flex-row md:justify-between gap-5 md:py-[31px]">
+          <BudgetsChart />
+          <div className="flex flex-wrap md:flex-col gap-y-4">
+            {finCtx.budgets.map(budget => (
+              <div key={budget.category} className="w-[50%] md:w-auto">
+                <CategorySummary name={budget.category} total={finCtx.formatWithCents(budget.maximum)} theme={budget.theme} />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </SectionWrapper>
