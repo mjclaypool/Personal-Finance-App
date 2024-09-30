@@ -31,7 +31,6 @@ const TransactionsPage = () => {
                   name={transaction.name}
                   date={transaction.date}
                   amount={transaction.amount}
-                  size="md"
                 />
                 {finCtx.transactions.indexOf(transaction) < (finCtx.transactions.length - 1) &&
                   <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>

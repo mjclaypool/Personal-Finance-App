@@ -4,7 +4,7 @@ import Button from "../UI/Button";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-import TransactionItem from "./TransactionItem";
+import TransactionItemAbbr from "./TransactionItemAbbr";
 
 import FinanceContext from "../store/FinanceContext";
 
@@ -38,16 +38,13 @@ const Transactions = () => {
         <div>
           {transactionsForDashboard.map(transaction => (
             <div key={transaction.name}>
-              <TransactionItem
+              <TransactionItemAbbr
                 avatar={transaction.avatar}
                 name={transaction.name}
                 date={transaction.date}
                 amount={transaction.amount}
-                size="lg"
               />
-              {transactionsForDashboard.indexOf(transaction) < (transactionsForDashboard.length - 1) &&
-                <div className="h-[1px] bg-p-grey100 my-5"/>
-              }
+              {transactionsForDashboard.indexOf(transaction) < (transactionsForDashboard.length - 1) && <div className="h-[1px] bg-p-grey100 my-5"/>}
             </div>
           ))}
         </div>

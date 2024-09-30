@@ -5,7 +5,7 @@ import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-import TransactionItem from "./TransactionItem";
+import TransactionItemAbbr from "./TransactionItemAbbr";
 
 // BudgetsCategorySpending component
 //
@@ -47,13 +47,12 @@ const BudgetsCategorySpending = (props: {cat: string}) => {
         <div>
           {transactionsForLatest.map(transaction => (
             <div key={transaction.name + transaction.date}>
-              <TransactionItem
+              <TransactionItemAbbr
                 avatar={transaction.avatar}
-                avatarVariableVis={true}
+                avatarHiddenSmScreen={true}
                 name={transaction.name}
                 date={transaction.date}
                 amount={transaction.amount}
-                size="md"
               />
               {transactionsForLatest.indexOf(transaction) < (transactionsForLatest.length - 1) &&
                 <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>

@@ -38,6 +38,7 @@ interface FinContextType {
   pots: potType[],
   formatWithCents: (value: number) => string,
   formatWithoutCents: (value: number) => string,
+  formatDate: (timeStamp: string) => string,
   getColorVar: (value: string) => string,
   getCatArray: (type: string, cat: string) => string[],
   getTransactionsForCurrentMonth: () => transactionType[],
@@ -61,6 +62,13 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
 
   function formatWithoutCents(value: number) {
     return formatterWithoutCents.format(value);
+  }
+
+  function formatDate(timeStamp: string) {
+    const day = timeStamp.substring(8, 10);
+    const month = Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(timeStamp.substring(5, 7)));
+    const year = timeStamp.substring(0, 4);
+    return (day + " " + month + ", " + year);
   }
 
   function getColorVar(value: string) {
@@ -156,6 +164,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     pots: currentPots,
     formatWithCents,
     formatWithoutCents,
+    formatDate,
     getColorVar,
     getCatArray,
     getTransactionsForCurrentMonth,
