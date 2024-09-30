@@ -21,9 +21,9 @@ const PotsPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <PageHeading pageTitle="Pots" button={<Button label="+ Add New Pot" type="primary"/>} />
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 xl:flex-row xl:flex-wrap">
         {finCtx.pots.map((pot) => (
-          <div key={pot.name}>
+          <div key={pot.name} className="xl:flex-1 xl:min-w-[430px]">
             <SectionWrapper color="white">
               <div className="flex flex-col gap-8">
                 <SectionHeading

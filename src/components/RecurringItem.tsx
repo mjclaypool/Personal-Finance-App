@@ -38,21 +38,21 @@ const RecurringItem = (props: transactionProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 md:flex-row md:justify-between">
       <div className="flex items-center gap-4">
         <img src={props.avatar} alt="avatar image" className="h-8 object-cover rounded-full" />
         <h3 className="text-preset4 text-p-grey900 font-bold">{props.name}</h3>
       </div>
-      <div className="flex justify-between items-center">
-        <div className="flex gap-2">
+      <div className="flex justify-between items-center md:gap-8">
+        <div className="flex gap-2 md:w-[120px]">
           <p className="text-preset5 text-s-green">Monthly - {day}{suffix}</p>
           {props.paid && <img src={paidIcon} alt="Paid Icon" />}
           {(!props.paid && (dayDue > "19" && dayDue < "25")) && <img src={dueIcon} alt="Due Icon" />}
         </div>
         {(!props.paid && (dayDue > "19" && dayDue < "25")) ?
-          <p className="text-preset4 text-s-red font-bold">{finCtx.formatWithCents(-props.amount)}</p>
+          <p className="text-preset4 text-s-red font-bold md:w-[100px] md:text-end">{finCtx.formatWithCents(-props.amount)}</p>
         :
-          <p className="text-preset4 text-p-grey900 font-bold">{finCtx.formatWithCents(-props.amount)}</p>
+          <p className="text-preset4 text-p-grey900 font-bold md:w-[100px] md: text-end">{finCtx.formatWithCents(-props.amount)}</p>
         }
       </div>
     </div>

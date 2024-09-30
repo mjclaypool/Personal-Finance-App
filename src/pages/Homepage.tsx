@@ -16,12 +16,12 @@ const Homepage = () => {
     <>
       <PageHeading pageTitle="Overview" />
       <Summary />
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
+      <div className="flex flex-col xl:flex-row xl:justify-between gap-6">
+        <div className="flex flex-col gap-4 xl:flex-1 xl:gap-6">
           <Pots />
           <Transactions />
         </div>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 xl:gap-6">
           <Budgets />
           <Recurring />
         </div>

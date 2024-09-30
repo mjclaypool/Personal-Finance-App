@@ -4,6 +4,7 @@ import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
 import SearchBar from "../UI/SearchBar";
 import SectionWrapper from "../UI/SectionWrapper";
+import TransactionHeaderBar from "../components/TransactionHeaderBar";
 import TransactionItem from "../components/TransactionItem";
 
 // Transactions Page
@@ -20,7 +21,8 @@ const TransactionsPage = () => {
       <SectionWrapper color="white">
         <div className="flex flex-col gap-6">
           <SearchBar sort={true} filter={true} />
-          <div>
+          <div className="flex flex-col">
+            <TransactionHeaderBar type="transactions" />
             {finCtx.transactions.map(transaction => (
               <div key={transaction.name + transaction.date}>
                 <TransactionItem

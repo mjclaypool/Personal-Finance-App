@@ -1,4 +1,5 @@
 import RecurringItem from "../components/RecurringItem";
+import TransactionHeaderBar from "./TransactionHeaderBar";
 
 // RecurringItemsList component
 //
@@ -19,6 +20,7 @@ type transaction = {
 const RecurringItemsList = (props: {bills: transaction[]}) => {
   return (
     <div>
+      <TransactionHeaderBar type="recurring" />
       {props.bills.map(transaction => (
         <div key={transaction.name + transaction.date}>
           <RecurringItem

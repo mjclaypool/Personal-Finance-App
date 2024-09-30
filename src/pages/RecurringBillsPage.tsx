@@ -31,9 +31,9 @@ const RecurringBillsPage = () => {
   return (
     <div className="flex flex-col gap-8">
       <PageHeading pageTitle="Recurring Bills" />
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col md:flex-row gap-3 md:gap-6">
-          <div className="md:flex-1">
+      <div className="flex flex-col xl:flex-row gap-6">
+        <div className="flex flex-col md:flex-row xl:flex-col gap-3 md:gap-6 xl:w-[337px]">
+          <div className="md:flex-1 xl:flex-none">
             <SectionWrapper color="black">
               <div className="flex md:flex-col items-center md:items-start gap-5 md:gap-8">
                 <img src={billsIcon} alt="Recurring bills icon" />
@@ -44,18 +44,20 @@ const RecurringBillsPage = () => {
               </div>
             </SectionWrapper>
           </div>
-          <div className="md:flex-1">
+          <div className="md:flex-1 xl:flex-none">
             <SectionWrapper color="white">
               <RecurringSummary bills={recurringBillsWithStatus}/>
             </SectionWrapper>
           </div>
         </div>
-        <SectionWrapper color="white">
-          <div className="flex flex-col gap-6">
-            <SearchBar sort={true} />
-            <RecurringItemsList bills={recurringBillsWithStatus}/>
-          </div>
-        </SectionWrapper>
+        <div className="xl:flex-1">
+          <SectionWrapper color="white">
+            <div className="flex flex-col gap-6">
+              <SearchBar sort={true} />
+              <RecurringItemsList bills={recurringBillsWithStatus}/>
+            </div>
+          </SectionWrapper>
+        </div>
       </div>
     </div>
   )
