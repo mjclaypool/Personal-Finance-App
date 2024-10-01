@@ -14,6 +14,7 @@ import TransactionItem from "../components/TransactionItem";
 
 const TransactionsPage = () => {
   const finCtx = useContext(FinanceContext);
+  const transactions = finCtx.getTransactions();
 
   return (
     <div className="flex flex-col gap-8">
@@ -23,7 +24,7 @@ const TransactionsPage = () => {
           <SearchBar sort={true} filter={true} />
           <div className="flex flex-col">
             <TransactionHeaderBar type="transactions" />
-            {finCtx.transactions.map(transaction => (
+            {transactions.map(transaction => (
               <div key={transaction.name + transaction.date}>
                 <TransactionItem
                   avatar={transaction.avatar}
@@ -32,7 +33,7 @@ const TransactionsPage = () => {
                   date={transaction.date}
                   amount={transaction.amount}
                 />
-                {finCtx.transactions.indexOf(transaction) < (finCtx.transactions.length - 1) &&
+                {transactions.indexOf(transaction) < (transactions.length - 1) &&
                   <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>
                 }
               </div>

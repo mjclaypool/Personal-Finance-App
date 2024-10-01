@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
+import FinanceContext from '../store/FinanceContext';
 import NavItem from './NavItem';
 
 import logo from '../assets/images/logo-large.svg';
@@ -24,7 +25,7 @@ type navItem = {
 }
 
 const NavBar = (props: {onNavSelection: (item: string) => void}) => {
-  const [activePage, setActivePage] = useState("Overview");
+  const finCtx = useContext(FinanceContext);
   const [miniNav, setMiniNav] = useState(false);
 
   const navMenu: navItem[] = [
@@ -61,7 +62,9 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
   ]
 
   function handleClick(menuLabel: string) {
-    setActivePage(menuLabel);
+    finCtx.updateUserProgress(menuLabel);
+    finCtx.updateSortingRule("Latest");
+    finCtx.updateFilterRule("All Transactions");
     props.onNavSelection(menuLabel);
     window.scrollTo(0, 0);
   }
@@ -82,7 +85,7 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
           <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
             {navMenu.map((menuItem) => (
               <div key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
-                {menuItem.label == activePage ?
+                {menuItem.label == finCtx.userProgress ?
                   <NavItem type="active" icon={menuItem.activeIcon} alt={menuItem.alt} label={menuItem.label} size="default" />
                 :
                   <NavItem type="inactive" icon={menuItem.icon} alt={menuItem.alt} label={menuItem.label} size="default" />
@@ -101,7 +104,7 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
           <div className="flex flex-col justify-start items-start fixed top-[125px]">
             {navMenu.map((menuItem) => (
               <div key={menuItem.label} onClick={() => handleClick(menuItem.label)}>
-                {menuItem.label == activePage ?
+                {menuItem.label == finCtx.userProgress ?
                   <NavItem type="active" icon={menuItem.activeIcon} alt={menuItem.alt} label={menuItem.label} size="mini" />
                 :
                   <NavItem type="inactive" icon={menuItem.icon} alt={menuItem.alt} label={menuItem.label} size="mini" />

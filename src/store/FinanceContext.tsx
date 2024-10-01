@@ -1,6 +1,9 @@
 import { createContext, JSX, useState } from "react";
 
 import { balance, transactions, budgets, pots } from "../data/data.json";
+import { formatterWithCents, formatterWithoutCents, formatDayMonthYear, formatDayWithSuffix } from "../utils/formatting";
+import { filterTransactions } from "../utils/filterTransactions";
+import { sortTransactions } from "../utils/sortTransactions";
 
 type balanceType = {
   current: number,
@@ -31,6 +34,8 @@ type potType = {
 }
 
 interface FinContextType {
+  userProgress: string,
+  updateUserProgress: (page: string) => void,
   balance: balanceType,
   transactions: transactionType[],
   budgets: budgetType[],
@@ -41,6 +46,7 @@ interface FinContextType {
   formatDay: (day: string) => string,
   getColorVar: (value: string) => string,
   getCatArray: (type: string, cat: string) => string[],
+  getTransactions: () => transactionType[],
   getTransactionsForCurrentMonth: () => transactionType[],
   getBudgetSpending: () => transactionType[],
   getBudgetSpendingByCat: (cat: string) => number,
@@ -49,57 +55,40 @@ interface FinContextType {
   getRecurringBills: () => transactionType[],
   getRecurringBillsTotal: () => number,
   getRecurringBillsByStatus: (status: string) => transactionType[],
-  getRecurringBillsByStatusTotal: (bills: transactionType[]) => number
+  getRecurringBillsByStatusTotal: (bills: transactionType[]) => number,
+  updateSortingRule: (rule: string) => void,
+  updateFilterRule: (rule: string) => void
 }
 
 const FinanceContext = createContext({} as FinContextType);
 
 export function FinanceContextProvider(props: {children: JSX.Element}) {
+  const [currentPage, setCurrentPage] = useState("Overview");
   const [currentBalance, setCurrentBalance] = useState(balance);
   const [currentTransactions, setCurrentTransactions] = useState(transactions);
   const [currentBudgets, setCurrentBudgets] = useState(budgets);
   const [currentPots, setCurrentPots] = useState(pots);
+  const [sortingRule, setSortingRule] = useState("Latest");
+  const [filterRule, setFilterRule] = useState("All Transactions");
+
+  function updateUserProgress(page: string) {
+    setCurrentPage(page);
+  }
 
   function formatWithCents(value: number) {
-    const formatterWithCents = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    });
     return formatterWithCents.format(value);
   }
 
   function formatWithoutCents(value: number) {
-    const formatterWithoutCents = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0
-    });
     return formatterWithoutCents.format(value);
   }
 
   function formatDate(timeStamp: string) {
-    const day = timeStamp.substring(8, 10);
-    const month = Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(timeStamp.substring(5, 7)));
-    const year = timeStamp.substring(0, 4);
-    return (day + " " + month + ", " + year);
+    return formatDayMonthYear(timeStamp);
   }
 
   function formatDay(day: string) {
-    let formattedDay = day;
-    if (day.charAt(0) == '0') {
-      formattedDay = day.charAt(1);
-    }
-
-    let suffix = "th";
-    if (day == '1' || day == "21") {
-      suffix = "st";
-    } else if (day == '2' || day == '22') {
-      suffix = "nd";
-    } else if (day == '3' || day == '23') {
-      suffix = "rd";
-    }
-
-    return formattedDay + suffix;
+    return formatDayWithSuffix(day);
   }
 
   function getColorVar(value: string) {
@@ -120,7 +109,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   }
 
   function getCatArray(type: string, cat: string) {
-    let newArray = [];
+    let newArray: string[] = [];
     if (type == "budgets" && cat == "category") {
       for (let i=0; i<budgets.length; i++) {
         newArray.push(budgets[i].category)
@@ -129,8 +118,22 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
       for (let i=0; i<budgets.length; i++) {
         newArray.push(budgets[i].theme)
       }
+    } else if (type == "transactions" && cat == "category") {
+      for (let i=0; i<transactions.length; i++) {
+        if (!newArray.includes(transactions[i].category)) {
+          newArray.push(transactions[i].category);
+        }
+      }
     }
     return newArray;
+  }
+
+  function getTransactions() {
+    let transactionsArray = transactions;
+    transactionsArray = filterTransactions(transactionsArray, filterRule);
+    transactionsArray = sortTransactions(transactionsArray, sortingRule);
+
+    return transactionsArray;
   }
 
   function getTransactionsForCurrentMonth() {
@@ -200,6 +203,8 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
         recurringThisMonth.push(transactions[i]);
       }
     }
+    recurringThisMonth = sortTransactions(recurringThisMonth, sortingRule);
+
     return recurringThisMonth;
   }
 
@@ -248,7 +253,17 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     return total;
   }
 
+  function updateSortingRule(rule: string) {
+    setSortingRule(rule);
+  }
+
+  function updateFilterRule(rule: string) {
+    setFilterRule(rule);
+  }
+
   const FinanceCtx = {
+    userProgress: currentPage,
+    updateUserProgress,
     balance: currentBalance,
     transactions: currentTransactions,
     budgets: currentBudgets,
@@ -259,6 +274,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     formatDay,
     getColorVar,
     getCatArray,
+    getTransactions,
     getTransactionsForCurrentMonth,
     getBudgetSpending,
     getBudgetSpendingByCat,
@@ -267,7 +283,9 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     getRecurringBills,
     getRecurringBillsTotal,
     getRecurringBillsByStatus,
-    getRecurringBillsByStatusTotal
+    getRecurringBillsByStatusTotal,
+    updateSortingRule,
+    updateFilterRule
   }
 
   return <FinanceContext.Provider value={FinanceCtx}>{props.children}</FinanceContext.Provider>
