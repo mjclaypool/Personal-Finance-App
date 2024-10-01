@@ -6,15 +6,6 @@ import RecurringCategoryItem from "./RecurringCategoryItem";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
-import {
-  getRecurring,
-  getRecurringStatus,
-  getBillsWithStats,
-  getTotal,
-  getPaidBills,
-  getUpcomingBills,
-  getDueSoonBills
-} from "../utils/recurringBills";
 
 // Recurring component
 //
@@ -25,17 +16,9 @@ import {
 
 const Recurring = () => {
   const finCtx = useContext(FinanceContext);
-  const recurringBills = getRecurring(finCtx.transactions);
-  const recurringBillsStatus = getRecurringStatus(finCtx.transactions, recurringBills);
-  const recurringBillsWithStatus = getBillsWithStats(recurringBills, recurringBillsStatus);
-
-  const paidBills = getPaidBills(recurringBillsWithStatus);
-  const upcomingBills = getUpcomingBills(recurringBillsWithStatus);
-  const dueSoonBills = getDueSoonBills(upcomingBills);
-
-  const paidBillsTotal = getTotal(paidBills);
-  const upcomingBillsTotal = getTotal(upcomingBills);
-  const dueSoonBillsTotal = getTotal(dueSoonBills);
+  const paidBills = finCtx.getRecurringBillsByStatus("paid");
+  const upcomingBills = finCtx.getRecurringBillsByStatus("upcoming");
+  const dueSoonBills = finCtx.getRecurringBillsByStatus("due-soon");
 
   return (
     <SectionWrapper color="white">
@@ -45,9 +28,21 @@ const Recurring = () => {
           end={<Button label="See Details" type="tertiary"/>}
         />
         <div className="flex flex-col gap-3">
-          <RecurringCategoryItem theme="green" category="Paid Bills" balance={-paidBillsTotal} />
-          <RecurringCategoryItem theme="yellow" category="Total Upcoming" balance={-upcomingBillsTotal} />
-          <RecurringCategoryItem theme="cyan" category="Due Soon" balance={-dueSoonBillsTotal} />
+          <RecurringCategoryItem
+            theme="green"
+            category="Paid Bills"
+            balance={finCtx.getRecurringBillsByStatusTotal(paidBills)}
+          />
+          <RecurringCategoryItem
+            theme="yellow"
+            category="Total Upcoming"
+            balance={finCtx.getRecurringBillsByStatusTotal(upcomingBills)}
+          />
+          <RecurringCategoryItem
+            theme="cyan"
+            category="Due Soon"
+            balance={finCtx.getRecurringBillsByStatusTotal(dueSoonBills)}
+          />
         </div>
       </div>
     </SectionWrapper>

@@ -1,7 +1,6 @@
 import { createContext, JSX, useState } from "react";
 
 import { balance, transactions, budgets, pots } from "../data/data.json";
-import { formatterWithCents, formatterWithoutCents } from "../utils/currencyFormatter";
 
 type balanceType = {
   current: number,
@@ -39,13 +38,18 @@ interface FinContextType {
   formatWithCents: (value: number) => string,
   formatWithoutCents: (value: number) => string,
   formatDate: (timeStamp: string) => string,
+  formatDay: (day: string) => string,
   getColorVar: (value: string) => string,
   getCatArray: (type: string, cat: string) => string[],
   getTransactionsForCurrentMonth: () => transactionType[],
   getBudgetSpending: () => transactionType[],
   getBudgetSpendingByCat: (cat: string) => number,
   getBudgetSpendingTotal: () => number,
-  getBudgetSpendingLimit: () => number
+  getBudgetSpendingLimit: () => number,
+  getRecurringBills: () => transactionType[],
+  getRecurringBillsTotal: () => number,
+  getRecurringBillsByStatus: (status: string) => transactionType[],
+  getRecurringBillsByStatusTotal: (bills: transactionType[]) => number
 }
 
 const FinanceContext = createContext({} as FinContextType);
@@ -57,10 +61,19 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   const [currentPots, setCurrentPots] = useState(pots);
 
   function formatWithCents(value: number) {
+    const formatterWithCents = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
     return formatterWithCents.format(value);
   }
 
   function formatWithoutCents(value: number) {
+    const formatterWithoutCents = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
     return formatterWithoutCents.format(value);
   }
 
@@ -69,6 +82,24 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     const month = Intl.DateTimeFormat('en', { month: 'short' }).format(new Date(timeStamp.substring(5, 7)));
     const year = timeStamp.substring(0, 4);
     return (day + " " + month + ", " + year);
+  }
+
+  function formatDay(day: string) {
+    let formattedDay = day;
+    if (day.charAt(0) == '0') {
+      formattedDay = day.charAt(1);
+    }
+
+    let suffix = "th";
+    if (day == '1' || day == "21") {
+      suffix = "st";
+    } else if (day == '2' || day == '22') {
+      suffix = "nd";
+    } else if (day == '3' || day == '23') {
+      suffix = "rd";
+    }
+
+    return formattedDay + suffix;
   }
 
   function getColorVar(value: string) {
@@ -157,6 +188,66 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     return limit;
   }
 
+  function getRecurringBills() {
+    let recurringThisMonth = [];
+    for (let i=transactions.length-1; i>=0; i--) {
+      if (transactions[i].recurring == true && transactions[i].date.charAt(6) == "8") {
+        recurringThisMonth.push(transactions[i]);
+      }
+    }
+    for (let i=transactions.length-1; i>=0; i--) {
+      if (transactions[i].recurring == true && transactions[i].date.substring(8, 10) > "19") {
+        recurringThisMonth.push(transactions[i]);
+      }
+    }
+    return recurringThisMonth;
+  }
+
+  function getRecurringBillsTotal() {
+    const recurringBills = getRecurringBills();
+    let total = 0;
+    for (let i=0; i<recurringBills.length; i++) {
+      total += -recurringBills[i].amount;
+    }
+    return total;
+  }
+
+  function getRecurringBillsByStatus(status: string) {
+    const recurringBills = getRecurringBills();
+    const currentMonth = "08";
+    const currentDay = "19";
+    const daySoon = "26";
+    let recurringByStatus = [];
+    if (status == "paid") {
+      for (let i=0; i<recurringBills.length; i++) {
+        if (recurringBills[i].date.substring(5, 7) == currentMonth) {
+          recurringByStatus.push(recurringBills[i]);
+        }
+      }
+    } else if (status == "upcoming") {
+      for (let i=0; i<recurringBills.length; i++) {
+        if (recurringBills[i].date.substring(5, 7) !== currentMonth) {
+          recurringByStatus.push(recurringBills[i]);
+        }
+      }
+    } else if (status == "due-soon") {
+      for (let i=0; i<recurringBills.length; i++) {
+        if ((recurringBills[i].date.substring(5, 7) !== currentMonth) && (recurringBills[i].date.substring(8, 10) > currentDay && recurringBills[i].date.substring(8, 10) < daySoon)) {
+          recurringByStatus.push(recurringBills[i]);
+        }
+      }
+    }
+    return recurringByStatus;
+  }
+
+  function getRecurringBillsByStatusTotal(bills: transactionType[]) {
+    let total = 0;
+    for (let i=0; i<bills.length; i++) {
+      total += -bills[i].amount;
+    }
+    return total;
+  }
+
   const FinanceCtx = {
     balance: currentBalance,
     transactions: currentTransactions,
@@ -165,13 +256,18 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     formatWithCents,
     formatWithoutCents,
     formatDate,
+    formatDay,
     getColorVar,
     getCatArray,
     getTransactionsForCurrentMonth,
     getBudgetSpending,
     getBudgetSpendingByCat,
     getBudgetSpendingTotal,
-    getBudgetSpendingLimit
+    getBudgetSpendingLimit,
+    getRecurringBills,
+    getRecurringBillsTotal,
+    getRecurringBillsByStatus,
+    getRecurringBillsByStatusTotal
   }
 
   return <FinanceContext.Provider value={FinanceCtx}>{props.children}</FinanceContext.Provider>

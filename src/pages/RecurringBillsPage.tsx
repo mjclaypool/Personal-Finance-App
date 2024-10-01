@@ -6,12 +6,6 @@ import RecurringSummary from "../components/RecurringSummary";
 import RecurringItemsList from "../components/RecurringItemsList";
 import SearchBar from "../UI/SearchBar";
 import SectionWrapper from "../UI/SectionWrapper";
-import {
-  getRecurring,
-  getRecurringStatus,
-  getBillsWithStats,
-  getTotal
-} from "../utils/recurringBills";
 
 import billsIcon from "../assets/images/icon-recurring-bills.svg";
 
@@ -23,10 +17,6 @@ import billsIcon from "../assets/images/icon-recurring-bills.svg";
 
 const RecurringBillsPage = () => {
   const finCtx = useContext(FinanceContext);
-  const recurringBills = getRecurring(finCtx.transactions);
-  const recurringBillsStatus = getRecurringStatus(finCtx.transactions, recurringBills);
-  const recurringBillsWithStatus = getBillsWithStats(recurringBills, recurringBillsStatus);
-  const totalBills = getTotal(recurringBillsWithStatus);
 
   return (
     <div className="flex flex-col gap-8">
@@ -39,14 +29,14 @@ const RecurringBillsPage = () => {
                 <img src={billsIcon} alt="Recurring bills icon" />
                 <div className="flex flex-col gap-[11px]">
                   <h2 className="text-preset4 text-white">Total bills</h2>
-                  <p className="text-preset1 text-white">{finCtx.formatWithCents(-totalBills)}</p>
+                  <p className="text-preset1 text-white">{finCtx.formatWithCents(finCtx.getRecurringBillsTotal())}</p>
                 </div>
               </div>
             </SectionWrapper>
           </div>
           <div className="md:flex-1 xl:flex-none">
             <SectionWrapper color="white">
-              <RecurringSummary bills={recurringBillsWithStatus}/>
+              <RecurringSummary />
             </SectionWrapper>
           </div>
         </div>
@@ -54,7 +44,7 @@ const RecurringBillsPage = () => {
           <SectionWrapper color="white">
             <div className="flex flex-col gap-6">
               <SearchBar sort={true} />
-              <RecurringItemsList bills={recurringBillsWithStatus}/>
+              <RecurringItemsList />
             </div>
           </SectionWrapper>
         </div>

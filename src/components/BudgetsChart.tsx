@@ -36,14 +36,16 @@ const BudgetsChart = () => {
         display: false
       }
     },
-    cutout: '60%'
+    cutout: '66%'
   }
 
   return (
     <div className="relative flex justify-center md:flex-1">
-      <div className="w-[240px] h-[240px]">
-        <Doughnut data={chartData} options={options} />
-        <div className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] flex flex-col gap-2 items-center">
+      <div className="w-[240px] h-[240px] pointer-events-none">
+        <div className="pointer-events-auto">
+          <Doughnut data={chartData} options={options} />
+        </div>
+        <div className="absolute top-[50%] left-[50%] -translate-y-[50%] -translate-x-[50%] w-[187.5px] h-[187.5px] flex flex-col justify-center gap-2 items-center rounded-full bg-white bg-opacity-25">
           <p className="text-preset1 text-p-grey900">{finCtx.formatWithoutCents(spendingTotal)}</p>
           <p className="text-preset5 text-p-grey500">of {finCtx.formatWithoutCents(spendingLimit)} limit</p>
         </div>

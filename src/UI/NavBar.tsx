@@ -66,8 +66,8 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
 
   return (
     <div className="sticky bottom-0 xl:relative font-pubSans bg-p-grey900 rounded-t-xl pt-100 xl:min-h-[100vh] xl:w-[300px] xl:rounded-l-none xl:rounded-r-xl">
-      <img src={logo} alt="Finance logo" className="hidden xl:block xl:fixed p-400 pb-[72px]" />
-      <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 w-full px-200 md:px-500 xl:px-0">
+      <img src={logo} alt="Finance logo" className="hidden xl:block xl:fixed p-400" />
+      <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
         {navMenu.map((menuItem) => (
           <div key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
             {menuItem.label == activePage ?

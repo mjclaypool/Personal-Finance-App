@@ -16,25 +16,21 @@ type transactionProps = {
   name: string,
   date: string,
   amount: number,
-  size: string,
-  paid?: boolean
 }
 
 const RecurringItem = (props: transactionProps) => {
   const finCtx = useContext(FinanceContext);
   const dayDue = props.date.substring(8, 10);
-  let day = dayDue;
-  if (day.charAt(0) == '0') {
-    day = day.charAt(1);
-  }
+  const currentDay = "19";
+  const daySoon = "26";
 
-  let suffix = "th";
-  if (day == '1' || day == "21") {
-    suffix = "st";
-  } else if (day == '2' || day == '22') {
-    suffix = "nd";
-  } else if (day == '3' || day == '23') {
-    suffix = "rd";
+  let paymentStatus = "";
+  if (dayDue <= currentDay) {
+    paymentStatus = "paid";
+  } else if (dayDue > currentDay && dayDue < daySoon) {
+    paymentStatus = "due-soon";
+  } else {
+    paymentStatus = "unpaid";
   }
 
   return (
@@ -45,15 +41,13 @@ const RecurringItem = (props: transactionProps) => {
       </div>
       <div className="flex justify-between items-center md:gap-8">
         <div className="flex gap-2 md:w-[120px]">
-          <p className="text-preset5 text-s-green">Monthly - {day}{suffix}</p>
-          {props.paid && <img src={paidIcon} alt="Paid Icon" />}
-          {(!props.paid && (dayDue > "19" && dayDue < "25")) && <img src={dueIcon} alt="Due Icon" />}
+          {paymentStatus == "paid" && <p className="text-preset5 text-s-green">Monthly - {finCtx.formatDay(dayDue)}</p>}
+          {paymentStatus !== "paid" && <p className="text-preset5 text-p-grey500">Monthly - {finCtx.formatDay(dayDue)}</p>}
+          {paymentStatus == "paid" && <img src={paidIcon} alt="Paid Icon" />}
+          {paymentStatus == "due-soon" && <img src={dueIcon} alt="Due Icon" />}
         </div>
-        {(!props.paid && (dayDue > "19" && dayDue < "25")) ?
-          <p className="text-preset4 text-s-red font-bold md:w-[100px] md:text-end">{finCtx.formatWithCents(-props.amount)}</p>
-        :
-          <p className="text-preset4 text-p-grey900 font-bold md:w-[100px] md: text-end">{finCtx.formatWithCents(-props.amount)}</p>
-        }
+        {paymentStatus == "due-soon" && <p className="text-preset4 text-s-red font-bold md:w-[100px] md:text-end">{finCtx.formatWithCents(-props.amount)}</p>}
+        {paymentStatus !== "due-soon" && <p className="text-preset4 text-p-grey900 font-bold md:w-[100px] md:text-end">{finCtx.formatWithCents(-props.amount)}</p>}
       </div>
     </div>
   )

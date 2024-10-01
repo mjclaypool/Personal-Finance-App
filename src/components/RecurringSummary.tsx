@@ -1,10 +1,7 @@
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 import RecurringSummaryItem from "./RecurringSummaryItem";
-import {
-  getPaidBills,
-  getUpcomingBills,
-  getDueSoonBills,
-  getTotal
-} from "../utils/recurringBills";
 
 // RecurringSummary component
 //
@@ -12,24 +9,11 @@ import {
 // Function:
 // -- Displays quantities and amounts of paid, upcoming, and due soon recurring bills.
 
-type transaction = {
-  avatar: string,
-  name: string,
-  category: string,
-  date: string,
-  amount: number,
-  recurring: boolean,
-  paid?: boolean
-}
-
-const RecurringSummary = (props: {bills: transaction[]}) => {
-  const paidBills = getPaidBills(props.bills);
-  const upcomingBills = getUpcomingBills(props.bills);
-  const dueSoonBills = getDueSoonBills(upcomingBills);
-
-  const paidBillsTotal = getTotal(paidBills);
-  const upcomingBillsTotal = getTotal(upcomingBills);
-  const dueSoonBillsTotal = getTotal(dueSoonBills);
+const RecurringSummary = () => {
+  const finCtx = useContext(FinanceContext);
+  const paidBills = finCtx.getRecurringBillsByStatus("paid");
+  const upcomingBills = finCtx.getRecurringBillsByStatus("upcoming");
+  const dueSoonBills = finCtx.getRecurringBillsByStatus("due-soon");
 
   return (
     <div className="flex flex-col gap-5">
@@ -38,21 +22,21 @@ const RecurringSummary = (props: {bills: transaction[]}) => {
         <RecurringSummaryItem
           title="Paid Bills"
           qty={paidBills.length}
-          total={-paidBillsTotal}
+          total={finCtx.getRecurringBillsByStatusTotal(paidBills)}
           color="default"
         />
         <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>
         <RecurringSummaryItem
           title="Total Upcoming"
           qty={upcomingBills.length}
-          total={-upcomingBillsTotal}
+          total={finCtx.getRecurringBillsByStatusTotal(upcomingBills)}
           color="default"
         />
         <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>
         <RecurringSummaryItem
           title="Due Soon"
           qty={dueSoonBills.length}
-          total={-dueSoonBillsTotal}
+          total={finCtx.getRecurringBillsByStatusTotal(dueSoonBills)}
           color="red"
         />
       </div>
