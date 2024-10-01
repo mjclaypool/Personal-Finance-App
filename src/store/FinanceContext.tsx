@@ -142,8 +142,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
       let date = transactions[i].date;
       if (date.charAt(6) == "8") {
         transactionsThisMonth.push(transactions[i])
-      } else {
-        break;
       }
     }
     return transactionsThisMonth;
