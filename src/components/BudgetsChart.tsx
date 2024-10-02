@@ -12,7 +12,8 @@ import FinanceContext from "../store/FinanceContext";
 
 const BudgetsChart = () => {
   const finCtx = useContext(FinanceContext);
-  const spendingTotal = finCtx.getBudgetSpendingTotal();
+  const budgetSpending = finCtx.getBudgetSpending();
+  const spendingTotal = finCtx.getBudgetSpendingTotal(budgetSpending);
   const spendingLimit = finCtx.getBudgetSpendingLimit();
   const chartLabels = finCtx.getCatArray("budgets", "category");
 
@@ -20,10 +21,10 @@ const BudgetsChart = () => {
     labels: chartLabels,
     datasets: [{
       data: [
-        finCtx.getBudgetSpendingByCat(chartLabels[0]),
-        finCtx.getBudgetSpendingByCat(chartLabels[1]),
-        finCtx.getBudgetSpendingByCat(chartLabels[2]),
-        finCtx.getBudgetSpendingByCat(chartLabels[3])
+        finCtx.getBudgetSpendingByCat(chartLabels[0], budgetSpending),
+        finCtx.getBudgetSpendingByCat(chartLabels[1], budgetSpending),
+        finCtx.getBudgetSpendingByCat(chartLabels[2], budgetSpending),
+        finCtx.getBudgetSpendingByCat(chartLabels[3], budgetSpending)
       ],
       backgroundColor: finCtx.getCatArray("budgets", "theme"),
       borderWidth: 0

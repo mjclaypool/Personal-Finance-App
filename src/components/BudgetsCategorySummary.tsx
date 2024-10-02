@@ -14,10 +14,19 @@ import SectionWrapper from "../UI/SectionWrapper";
 // Function:
 // -- Displays the amount spent vs amount free for a given budget category, both in text and via a progress bar.
 
-const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string} ) => {
+type transactionType = {
+  avatar: string,
+  name: string,
+  category: string,
+  date: string,
+  amount: number,
+  recurring: boolean
+}
+
+const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string, spending: transactionType[]} ) => {
   const finCtx = useContext(FinanceContext);
 
-  const spent = finCtx.getBudgetSpendingByCat(props.cat);
+  const spent = finCtx.getBudgetSpendingByCat(props.cat, props.spending);
   const avail = props.max - spent;
   let percentSpent = "";
   if ((spent / props.max) * 100 > 100) {

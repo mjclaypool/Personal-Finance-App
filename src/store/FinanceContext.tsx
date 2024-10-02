@@ -34,8 +34,6 @@ type potType = {
 }
 
 interface FinContextType {
-  userProgress: string,
-  updateUserProgress: (page: string) => void,
   balance: balanceType,
   transactions: transactionType[],
   budgets: budgetType[],
@@ -47,10 +45,9 @@ interface FinContextType {
   getColorVar: (value: string) => string,
   getCatArray: (type: string, cat: string) => string[],
   getTransactions: () => transactionType[],
-  getTransactionsForCurrentMonth: () => transactionType[],
   getBudgetSpending: () => transactionType[],
-  getBudgetSpendingByCat: (cat: string) => number,
-  getBudgetSpendingTotal: () => number,
+  getBudgetSpendingByCat: (cat: string, spending: transactionType[]) => number,
+  getBudgetSpendingTotal: (spending: transactionType[]) => number,
   getBudgetSpendingLimit: () => number,
   getRecurringBills: () => transactionType[],
   getRecurringBillsTotal: () => number,
@@ -63,17 +60,12 @@ interface FinContextType {
 const FinanceContext = createContext({} as FinContextType);
 
 export function FinanceContextProvider(props: {children: JSX.Element}) {
-  const [currentPage, setCurrentPage] = useState("Overview");
   const [currentBalance, setCurrentBalance] = useState(balance);
   const [currentTransactions, setCurrentTransactions] = useState(transactions);
   const [currentBudgets, setCurrentBudgets] = useState(budgets);
   const [currentPots, setCurrentPots] = useState(pots);
   const [sortingRule, setSortingRule] = useState("Latest");
   const [filterRule, setFilterRule] = useState("All Transactions");
-
-  function updateUserProgress(page: string) {
-    setCurrentPage(page);
-  }
 
   function formatWithCents(value: number) {
     return formatterWithCents.format(value);
@@ -132,25 +124,19 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     let transactionsArray = transactions;
     transactionsArray = filterTransactions(transactionsArray, filterRule);
     transactionsArray = sortTransactions(transactionsArray, sortingRule);
-
     return transactionsArray;
   }
 
-  function getTransactionsForCurrentMonth() {
+  function getBudgetSpending() {
+    let categories = getCatArray("budgets", "category");
     let transactionsThisMonth = [];
+    let spending = [];
     for (let i=0; i<transactions.length; i++) {
       let date = transactions[i].date;
       if (date.charAt(6) == "8") {
         transactionsThisMonth.push(transactions[i])
       }
     }
-    return transactionsThisMonth;
-  }
-
-  function getBudgetSpending() {
-    let transactionsThisMonth = getTransactionsForCurrentMonth();
-    let categories = getCatArray("budgets", "category");
-    let spending = [];
     for (let i=0; i<transactionsThisMonth.length; i++) {
       for (let j=0; j<categories.length; j++) {
         if (transactionsThisMonth[i].category == categories[j]) {
@@ -161,8 +147,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     return spending;
   }
 
-  function getBudgetSpendingByCat(cat: string) {
-    let spending = getBudgetSpending();
+  function getBudgetSpendingByCat(cat: string, spending: transactionType[]) {
     let catTotal = 0;
     for (let i=0; i<spending.length; i++) {
       if (spending[i].category == cat) {
@@ -172,8 +157,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     return catTotal;
   }
 
-  function getBudgetSpendingTotal() {
-    let spending = getBudgetSpending();
+  function getBudgetSpendingTotal(spending: transactionType[]) {
     let total = 0;
     for (let i=0; i<spending.length; i++) {
       total += -spending[i].amount;
@@ -202,7 +186,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
       }
     }
     recurringThisMonth = sortTransactions(recurringThisMonth, sortingRule);
-
     return recurringThisMonth;
   }
 
@@ -260,8 +243,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   }
 
   const FinanceCtx = {
-    userProgress: currentPage,
-    updateUserProgress,
     balance: currentBalance,
     transactions: currentTransactions,
     budgets: currentBudgets,
@@ -273,7 +254,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     getColorVar,
     getCatArray,
     getTransactions,
-    getTransactionsForCurrentMonth,
     getBudgetSpending,
     getBudgetSpendingByCat,
     getBudgetSpendingTotal,

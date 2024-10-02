@@ -12,7 +12,16 @@ import FinanceContext from "../store/FinanceContext";
 // Function:
 // -- Displays a spending summary of all budget categories, including a graph of total spending compared to budget limits.
 
-const BudgetSpendingSummary = () => {
+type transactionType = {
+  avatar: string,
+  name: string,
+  category: string,
+  date: string,
+  amount: number,
+  recurring: boolean
+}
+
+const BudgetSpendingSummary = (props: {spending: transactionType[] }) => {
   const finCtx = useContext(FinanceContext);
 
   return (
@@ -27,7 +36,7 @@ const BudgetSpendingSummary = () => {
                 <BudgetSpendingSummaryItem
                   cat={budget.category}
                   theme={budget.theme}
-                  spent={finCtx.getBudgetSpendingByCat(budget.category)}
+                  spent={finCtx.getBudgetSpendingByCat(budget.category, props.spending)}
                   max={budget.maximum}
                 />
                 {finCtx.budgets.indexOf(budget) < (finCtx.budgets.length - 1) && <div className="h-[1px] bg-p-grey100 my-4"/>}

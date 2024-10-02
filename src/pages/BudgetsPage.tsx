@@ -15,6 +15,7 @@ import PageHeading from "../UI/PageHeading";
 
 const BudgetsPage = () => {
   const finCtx = useContext(FinanceContext);
+  const budgetSpending = finCtx.getBudgetSpending();
 
   return (
     <div className="flex flex-col gap-8">
@@ -23,7 +24,7 @@ const BudgetsPage = () => {
         button={<Button label="+ Add New Budget" type="primary"/>}
       />
       <div className="flex flex-col xl:flex-row gap-6">
-        <BudgetSpendingSummary />
+        <BudgetSpendingSummary spending={budgetSpending} />
         <div className="flex flex-col gap-6 xl:flex-1">
           {finCtx.budgets.map((budget) => (
             <div key={budget.category}>
@@ -31,6 +32,7 @@ const BudgetsPage = () => {
                 cat={budget.category}
                 max={budget.maximum}
                 theme={budget.theme}
+                spending={budgetSpending}
               />
             </div>
           ))}
