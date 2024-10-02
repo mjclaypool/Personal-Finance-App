@@ -66,6 +66,9 @@ export default {
         '150': '12px',
         '100': '8px',
         '50': '4px',
+      },
+      boxShadow: {
+        "dropdown": "0px 0px 15px 2px rgba(0,0,0,0.25)",
       }
     },
   },

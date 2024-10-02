@@ -1,6 +1,7 @@
 import { useContext } from "react";
 
 import Button from "../UI/Button";
+import DropdownEditDelete from "../UI/DropdownEditDelete";
 import FinanceContext from "../store/FinanceContext";
 import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
@@ -25,11 +26,12 @@ const PotsPage = () => {
         {finCtx.pots.map((pot) => (
           <div key={pot.name} className="xl:flex-1 xl:min-w-[430px]">
             <SectionWrapper color="white">
-              <div className="flex flex-col gap-8">
+              <div className="relative flex flex-col gap-8">
                 <SectionHeading
                   start={<SectionTitle title={pot.name} size="lg" theme={pot.theme} />}
-                  end={<Button type="ellipse"/>}
+                  end={<div onClick={() => finCtx.updateDropdown(pot.name)}><Button type="ellipse"/></div>}
                 />
+                {finCtx.dropdown == pot.name && <DropdownEditDelete type="Pot" />}
                 <PotsCategorySummary total={pot.total} target={pot.target} theme={pot.theme} />
                 <div className="flex justify-between gap-4 mb-[14px]">
                   <Button type="secondary" label="+ Add Money" />

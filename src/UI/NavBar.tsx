@@ -66,6 +66,7 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
     setCurrentPage(menuLabel);
     finCtx.updateSortingRule("Latest");
     finCtx.updateFilterRule("All Transactions");
+    finCtx.updateDropdown("");
     props.onNavSelection(menuLabel);
     window.scrollTo(0, 0);
   }

@@ -38,6 +38,8 @@ interface FinContextType {
   transactions: transactionType[],
   budgets: budgetType[],
   pots: potType[],
+  dropdown: string,
+  updateDropdown: (cat: string) => void,
   formatWithCents: (value: number) => string,
   formatWithoutCents: (value: number) => string,
   formatDate: (timeStamp: string) => string,
@@ -64,8 +66,17 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   const [currentTransactions, setCurrentTransactions] = useState(transactions);
   const [currentBudgets, setCurrentBudgets] = useState(budgets);
   const [currentPots, setCurrentPots] = useState(pots);
+  const [currentDropdown, setCurrentDropdown] = useState("");
   const [sortingRule, setSortingRule] = useState("Latest");
   const [filterRule, setFilterRule] = useState("All Transactions");
+
+  function updateDropdown(cat: string) {
+    if (cat == currentDropdown) {
+      setCurrentDropdown("");
+    } else {
+      setCurrentDropdown(cat);
+    }
+  }
 
   function formatWithCents(value: number) {
     return formatterWithCents.format(value);
@@ -247,6 +258,8 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     transactions: currentTransactions,
     budgets: currentBudgets,
     pots: currentPots,
+    dropdown: currentDropdown,
+    updateDropdown,
     formatWithCents,
     formatWithoutCents,
     formatDate,

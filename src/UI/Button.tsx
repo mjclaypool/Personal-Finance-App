@@ -5,12 +5,12 @@ const Button = (props: {label?: string, type: string}) => {
   return (
     <>
       {props.type == "primary" &&
-        <button type="button" className="text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200">
+        <button type="button" className="text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200 hover:bg-p-grey500">
           {props.label}
         </button>
       }
       {props.type == "secondary" &&
-        <button type="button" className="flex-1 text-preset4 text-p-grey900 font-bold bg-p-beige100 rounded-lg p-200">
+        <button type="button" className="flex-1 text-preset4 text-p-grey900 font-bold bg-p-beige100 border-[1px] border-transparent rounded-lg p-200 hover:bg-white hover:border-p-beige500">
           {props.label}
         </button>
       }
@@ -22,9 +22,14 @@ const Button = (props: {label?: string, type: string}) => {
           </div>
         </div>
       }
+      {props.type == "destroy" &&
+        <button type="button" className="text-preset4 text-white font-bold bg-s-red rounded-lg p-200 hover:bg-opacity-80">
+          {props.label}
+        </button>
+      }
       {props.type == "ellipse" &&
         <div>
-          <img src={ellipsisIcon} alt="ellipsis icon" />
+          <img src={ellipsisIcon} alt="ellipsis icon" className="cursor-pointer py-100" />
         </div>
       }
     </>
