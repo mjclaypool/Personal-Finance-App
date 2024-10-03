@@ -1,0 +1,16 @@
+export const colorOptions = [
+  {code: "#277C78", color:"bg-s-green", name: "Green"},
+  {code: "#F2CDAC", color:"bg-s-yellow", name: "Yellow"},
+  {code: "#82C9D7", color:"bg-s-cyan", name: "Cyan"},
+  {code: "#626070", color:"bg-s-navy", name: "Navy"},
+  {code: "#C94736", color:"bg-s-red", name: "Red"},
+  {code: "#826CB0", color:"bg-s-purple", name: "Purple"},
+  {code: "#597C7C", color:"bg-o-turquoise", name: "Turquoise"},
+  {code: "#93674F", color:"bg-o-brown", name: "Brown"},
+  {code: "#934F6F", color:"bg-o-magenta", name: "Magenta"},
+  {code: "#3F82B2", color:"bg-o-blue", name: "Blue"},
+  {code: "#97A0AC", color:"bg-o-navy-grey", name: "Navy Grey"},
+  {code: "#7F9161", color:"bg-o-army-green", name: "Army Green"},
+  {code: "#CAB361", color:"bg-o-gold", name: "Gold"},
+  {code: "#BE6C49", color:"bg-o-orange", name: "Orange"},
+]

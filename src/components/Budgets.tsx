@@ -16,8 +16,15 @@ import SectionWrapper from "../UI/SectionWrapper";
 // -- Displays up to 4 budgets and the amount spent in each.
 // -- Allows users to view additional budgets details via the CTA.
 
+type budget = {
+  category: string,
+  maximum: number,
+  theme: string
+}
+
 const Budgets = () => {
   const finCtx = useContext(FinanceContext);
+  const budgetsForDashboard: budget[] = finCtx.budgets.slice(0, 4);
 
   return (
     <SectionWrapper color="white">
@@ -29,7 +36,7 @@ const Budgets = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-5 md:py-[31px]">
           <BudgetsChart />
           <div className="flex flex-wrap md:flex-col gap-y-4">
-            {finCtx.budgets.map(budget => (
+            {budgetsForDashboard.map(budget => (
               <div key={budget.category} className="w-[50%] md:w-auto">
                 <CategorySummary name={budget.category} total={finCtx.formatWithCents(budget.maximum)} theme={budget.theme} />
               </div>

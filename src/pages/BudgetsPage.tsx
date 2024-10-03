@@ -1,9 +1,12 @@
 import { useContext } from "react";
 
+import AddBudgetModal from "../UI/AddBudgetModal";
 import BudgetsCategorySummary from "../components/BudgetsCategorySummary";
 import BudgetSpendingSummary from "../components/BudgetSpendingSummary";
 import Button from "../UI/Button";
 import FinanceContext from "../store/FinanceContext";
+import UserProgressContext from "../store/UserProgressContext";
+import Modal from "../UI/Modal";
 import PageHeading from "../UI/PageHeading";
 
 // Budgets Page
@@ -15,13 +18,14 @@ import PageHeading from "../UI/PageHeading";
 
 const BudgetsPage = () => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
   const budgetSpending = finCtx.getBudgetSpending();
 
   return (
     <div className="flex flex-col gap-8">
       <PageHeading
         pageTitle="Budgets"
-        button={<Button label="+ Add New Budget" type="primary"/>}
+        button={<div onClick={() => userCtx.updateModalType("Add New")}><Button label="+ Add New Budget" type="primary"/></div>}
       />
       <div className="flex flex-col xl:flex-row gap-6">
         <BudgetSpendingSummary spending={budgetSpending} />
@@ -38,6 +42,7 @@ const BudgetsPage = () => {
           ))}
         </div>
       </div>
+      {userCtx.modalType == "Add New" && <Modal><AddBudgetModal /></Modal>}
     </div>
   )
 }

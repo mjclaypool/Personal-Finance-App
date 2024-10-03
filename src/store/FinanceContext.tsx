@@ -2,6 +2,7 @@ import { createContext, JSX, useState } from "react";
 
 import { balance, transactions, budgets, pots } from "../data/data.json";
 import { formatterWithCents, formatterWithoutCents, formatDayMonthYear, formatDayWithSuffix } from "../utils/formatting";
+import { colorOptions } from "../utils/colors";
 import { filterTransactions } from "../utils/filterTransactions";
 import { sortTransactions } from "../utils/sortTransactions";
 
@@ -38,15 +39,22 @@ interface FinContextType {
   transactions: transactionType[],
   budgets: budgetType[],
   pots: potType[],
-  dropdown: string,
-  updateDropdown: (cat: string) => void,
+  addBudget: (budget: budgetType) => void,
+  updateBudgets: (budget: budgetType) => void,
+  deleteBudget: (cat: string) => void,
+  addPot: (pot: potType) => void,
+  updatePots: (pot: potType) => void,
+  deletePot: (name: string) => void,
   formatWithCents: (value: number) => string,
   formatWithoutCents: (value: number) => string,
   formatDate: (timeStamp: string) => string,
   formatDay: (day: string) => string,
   getColorVar: (value: string) => string,
+  getColorOptions: () => {code: string, color: string, name: string}[],
   getCatArray: (type: string, cat: string) => string[],
   getTransactions: () => transactionType[],
+  getPot: (name: string) => potType,
+  getBudget: (cat: string) => budgetType,
   getBudgetSpending: () => transactionType[],
   getBudgetSpendingByCat: (cat: string, spending: transactionType[]) => number,
   getBudgetSpendingTotal: (spending: transactionType[]) => number,
@@ -62,20 +70,59 @@ interface FinContextType {
 const FinanceContext = createContext({} as FinContextType);
 
 export function FinanceContextProvider(props: {children: JSX.Element}) {
-  const [currentBalance, setCurrentBalance] = useState(balance);
-  const [currentTransactions, setCurrentTransactions] = useState(transactions);
   const [currentBudgets, setCurrentBudgets] = useState(budgets);
   const [currentPots, setCurrentPots] = useState(pots);
-  const [currentDropdown, setCurrentDropdown] = useState("");
   const [sortingRule, setSortingRule] = useState("Latest");
   const [filterRule, setFilterRule] = useState("All Transactions");
+  const currentBalance = balance;
+  const currentTransactions = transactions;
 
-  function updateDropdown(cat: string) {
-    if (cat == currentDropdown) {
-      setCurrentDropdown("");
-    } else {
-      setCurrentDropdown(cat);
+  function addBudget(budget: budgetType) {
+    let currentBudgetsArray = currentBudgets;
+    currentBudgetsArray.push(budget);
+    setCurrentBudgets(currentBudgetsArray);
+  }
+
+  function updateBudgets(budget: budgetType) {
+    let currentBudgetsArray = currentBudgets;
+    const budgetIndex = currentBudgetsArray.findIndex(obj => obj.category == budget.category);
+    if (budgetIndex > -1) {
+      currentBudgetsArray[budgetIndex] = budget;
     }
+    setCurrentBudgets(currentBudgetsArray);
+  }
+
+  function deleteBudget(cat: string) {
+    let currentBudgetsArray = currentBudgets;
+    const budgetIndex = currentBudgetsArray.findIndex(obj => obj.category == cat);
+    if (budgetIndex > -1) {
+      currentBudgetsArray.splice(budgetIndex, 1);
+    }
+    setCurrentBudgets(currentBudgetsArray);
+  }
+
+  function addPot(pot: potType) {
+    let currentPotsArray = currentPots;
+    currentPotsArray.push(pot);
+    setCurrentPots(currentPotsArray);
+  }
+
+  function updatePots(pot: potType) {
+    let currentPotsArray = currentPots;
+    const potIndex = currentPotsArray.findIndex(obj => obj.name == pot.name);
+    if (potIndex > -1) {
+      currentPotsArray[potIndex] = pot;
+    }
+    setCurrentPots(currentPotsArray);
+  }
+
+  function deletePot(name: string) {
+    let currentPotsArray = currentPots;
+    const potIndex = currentPotsArray.findIndex(obj => obj.name == name);
+    if (potIndex > -1) {
+      currentPotsArray.splice(potIndex, 1);
+    }
+    setCurrentPots(currentPotsArray);
   }
 
   function formatWithCents(value: number) {
@@ -94,19 +141,15 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     return formatDayWithSuffix(day);
   }
 
+  function getColorOptions() {
+    return colorOptions;
+  }
+
   function getColorVar(value: string) {
-    let colors = [
-      {code: "#277C78", color:"bg-s-green"},
-      {code: "#F2CDAC", color:"bg-s-yellow"},
-      {code: "#82C9D7", color:"bg-s-cyan"},
-      {code: "#626070", color:"bg-s-navy"},
-      {code: "#C94736", color:"bg-s-red"},
-      {code: "#826CB0", color:"bg-s-purple"}
-    ];
-    for (let i=0; i<colors.length; i++) {
-      if (value == colors[i].code) {
-        return colors[i].color;
-      }
+    const colorsArray = getColorOptions();
+    const colorIndex = colorsArray.findIndex(obj => obj.code == value);
+    if (colorIndex > -1) {
+      return colorsArray[colorIndex].color;
     }
     return "bg-p-beige100";
   }
@@ -122,9 +165,9 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
         newArray.push(budgets[i].theme)
       }
     } else if (type == "transactions" && cat == "category") {
-      for (let i=0; i<transactions.length; i++) {
-        if (!newArray.includes(transactions[i].category)) {
-          newArray.push(transactions[i].category);
+      for (let i=0; i<currentTransactions.length; i++) {
+        if (!newArray.includes(currentTransactions[i].category)) {
+          newArray.push(currentTransactions[i].category);
         }
       }
     }
@@ -132,20 +175,36 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   }
 
   function getTransactions() {
-    let transactionsArray = transactions;
+    let transactionsArray = currentTransactions;
     transactionsArray = filterTransactions(transactionsArray, filterRule);
     transactionsArray = sortTransactions(transactionsArray, sortingRule);
     return transactionsArray;
+  }
+
+  function getPot(name: string) {
+    const potIndex = pots.findIndex(obj => obj.name == name);
+    if (potIndex > -1) {
+      return pots[potIndex];
+    }
+    return pots[0];
+  }
+
+  function getBudget(cat: string) {
+    const budgetIndex = budgets.findIndex(obj => obj.category == cat);
+    if (budgetIndex > -1) {
+      return budgets[budgetIndex];
+    }
+    return budgets[0];
   }
 
   function getBudgetSpending() {
     let categories = getCatArray("budgets", "category");
     let transactionsThisMonth = [];
     let spending = [];
-    for (let i=0; i<transactions.length; i++) {
-      let date = transactions[i].date;
+    for (let i=0; i<currentTransactions.length; i++) {
+      let date = currentTransactions[i].date;
       if (date.charAt(6) == "8") {
-        transactionsThisMonth.push(transactions[i])
+        transactionsThisMonth.push(currentTransactions[i])
       }
     }
     for (let i=0; i<transactionsThisMonth.length; i++) {
@@ -186,14 +245,14 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
 
   function getRecurringBills() {
     let recurringThisMonth = [];
-    for (let i=transactions.length-1; i>=0; i--) {
-      if (transactions[i].recurring == true && transactions[i].date.charAt(6) == "8") {
-        recurringThisMonth.push(transactions[i]);
+    for (let i=currentTransactions.length-1; i>=0; i--) {
+      if (currentTransactions[i].recurring == true && currentTransactions[i].date.charAt(6) == "8") {
+        recurringThisMonth.push(currentTransactions[i]);
       }
     }
-    for (let i=transactions.length-1; i>=0; i--) {
-      if (transactions[i].recurring == true && transactions[i].date.substring(8, 10) > "19") {
-        recurringThisMonth.push(transactions[i]);
+    for (let i=currentTransactions.length-1; i>=0; i--) {
+      if (currentTransactions[i].recurring == true && currentTransactions[i].date.substring(8, 10) > "19") {
+        recurringThisMonth.push(currentTransactions[i]);
       }
     }
     recurringThisMonth = sortTransactions(recurringThisMonth, sortingRule);
@@ -258,15 +317,22 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     transactions: currentTransactions,
     budgets: currentBudgets,
     pots: currentPots,
-    dropdown: currentDropdown,
-    updateDropdown,
+    addBudget,
+    updateBudgets,
+    deleteBudget,
+    addPot,
+    updatePots,
+    deletePot,
     formatWithCents,
     formatWithoutCents,
     formatDate,
     formatDay,
     getColorVar,
+    getColorOptions,
     getCatArray,
     getTransactions,
+    getPot,
+    getBudget,
     getBudgetSpending,
     getBudgetSpendingByCat,
     getBudgetSpendingTotal,

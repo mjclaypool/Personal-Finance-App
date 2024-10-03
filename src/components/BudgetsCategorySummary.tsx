@@ -1,13 +1,17 @@
 import { useContext } from "react";
 
+import EditBudgetModal from "../UI/EditBudgetModal";
 import BudgetsCategorySpending from "./BudgetsCategorySpending";
 import Button from "../UI/Button";
 import CategorySummary from "../components/CategorySummary";
+import DeleteModal from "../UI/DeleteModal";
 import DropdownEditDelete from "../UI/DropdownEditDelete";
 import FinanceContext from "../store/FinanceContext";
+import Modal from "../UI/Modal";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
+import UserProgressContext from "../store/UserProgressContext";
 
 // BudgetsCategorySummary component
 //
@@ -26,6 +30,7 @@ type transactionType = {
 
 const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string, spending: transactionType[]} ) => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
 
   const spent = finCtx.getBudgetSpendingByCat(props.cat, props.spending);
   const avail = props.max - spent;
@@ -42,9 +47,8 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
         <div className="relative flex flex-col gap-5">
           <SectionHeading
             start={<SectionTitle title={props.cat} size="lg" theme={props.theme} />}
-            end={<div onClick={() => finCtx.updateDropdown(props.cat)}><Button type="ellipse"/></div>}
+            end={<div onClick={() => userCtx.updateDropdown(props.cat)}><Button type="ellipse"/></div>}
           />
-          {finCtx.dropdown == props.cat && <DropdownEditDelete type="Budget" />}
           <p className="text-preset4 text-p-grey500">Maximum of {finCtx.formatWithCents(props.max)}</p>
           <div className="h-8 bg-p-beige100 rounded-[4px] p-1">
             <div className={`${finCtx.getColorVar(props.theme)} h-full rounded-[4px]`} style={{ width: percentSpent }} />
@@ -58,6 +62,9 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
             </div>
           </div>
           <BudgetsCategorySpending cat={props.cat} />
+          {userCtx.dropdown == props.cat && <DropdownEditDelete />}
+          {(userCtx.dropdown == props.cat && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={finCtx.getBudget(props.cat)} /></Modal>}
+          {(userCtx.dropdown == props.cat && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.cat} /></Modal>}
         </div>
       </SectionWrapper>
     </>

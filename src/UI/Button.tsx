@@ -5,7 +5,7 @@ const Button = (props: {label?: string, type: string}) => {
   return (
     <>
       {props.type == "primary" &&
-        <button type="button" className="text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200 hover:bg-p-grey500">
+        <button type="button" className="flex-1 text-preset4 text-white font-bold bg-p-grey900 rounded-lg p-200 hover:bg-p-grey500">
           {props.label}
         </button>
       }
@@ -23,7 +23,7 @@ const Button = (props: {label?: string, type: string}) => {
         </div>
       }
       {props.type == "destroy" &&
-        <button type="button" className="text-preset4 text-white font-bold bg-s-red rounded-lg p-200 hover:bg-opacity-80">
+        <button type="button" className="flex-1 text-preset4 text-white font-bold bg-s-red rounded-lg p-200 hover:bg-opacity-80">
           {props.label}
         </button>
       }

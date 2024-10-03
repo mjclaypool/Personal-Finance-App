@@ -16,16 +16,20 @@ const BudgetsChart = () => {
   const spendingTotal = finCtx.getBudgetSpendingTotal(budgetSpending);
   const spendingLimit = finCtx.getBudgetSpendingLimit();
   const chartLabels = finCtx.getCatArray("budgets", "category");
+  const chartDataSegments = getChartData();
+
+  function getChartData() {
+    let dataArray = []
+    for (let i=0; i<chartLabels.length; i++) {
+      dataArray.push(finCtx.getBudgetSpendingByCat(chartLabels[i], budgetSpending));
+    }
+    return dataArray;
+  }
 
   const chartData = {
     labels: chartLabels,
     datasets: [{
-      data: [
-        finCtx.getBudgetSpendingByCat(chartLabels[0], budgetSpending),
-        finCtx.getBudgetSpendingByCat(chartLabels[1], budgetSpending),
-        finCtx.getBudgetSpendingByCat(chartLabels[2], budgetSpending),
-        finCtx.getBudgetSpendingByCat(chartLabels[3], budgetSpending)
-      ],
+      data: chartDataSegments,
       backgroundColor: finCtx.getCatArray("budgets", "theme"),
       borderWidth: 0
     }]
