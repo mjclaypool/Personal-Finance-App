@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { Link } from "react-router-dom";
 
 import FinanceContext from '../store/FinanceContext';
 import UserProgressContext from '../store/UserProgressContext';
@@ -22,10 +23,11 @@ type navItem = {
   label: string,
   icon: string,
   activeIcon: string,
-  alt: string
+  alt: string,
+  slug: string
 }
 
-const NavBar = (props: {onNavSelection: (item: string) => void}) => {
+const NavBar = () => {
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
   const [miniNav, setMiniNav] = useState(false);
@@ -35,31 +37,36 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
       label: "Overview",
       icon: overviewIcon,
       activeIcon: activeOverviewIcon,
-      alt: "Overview Icon"
+      alt: "Overview Icon",
+      slug: "/"
     },
     {
       label: "Transactions",
       icon: transactionsIcon,
       activeIcon: activeTransactionsIcon,
-      alt: "Transactions Icon"
+      alt: "Transactions Icon",
+      slug: "/transactions"
     },
     {
       label: "Budgets",
       icon: budgetsIcon,
       activeIcon: activeBudgetsIcon,
-      alt: "Budgets Icon"
+      alt: "Budgets Icon",
+      slug: "/budgets"
     },
     {
       label: "Pots",
       icon: potsIcon,
       activeIcon: activePotsIcon,
-      alt: "Pots Icon"
+      alt: "Pots Icon",
+      slug: "/pots"
     },
     {
       label: "Recurring bills",
       icon: recurringIcon,
       activeIcon: activeRecurringIcon,
-      alt: "Recurring bills Icon"
+      alt: "Recurring bills Icon",
+      slug: "/recurring"
     }
   ]
 
@@ -68,7 +75,6 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
     userCtx.updateDropdown("");
     finCtx.updateSortingRule("Latest");
     finCtx.updateFilterRule("All Transactions");
-    props.onNavSelection(menuLabel);
     window.scrollTo(0, 0);
   }
 
@@ -87,13 +93,9 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
           <img src={logo} alt="Finance logo" className="hidden xl:block xl:fixed p-400" />
           <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
             {navMenu.map((menuItem) => (
-              <div key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
-                {menuItem.label == userCtx.page ?
-                  <NavItem type="active" icon={menuItem.activeIcon} alt={menuItem.alt} label={menuItem.label} size="default" />
-                :
-                  <NavItem type="inactive" icon={menuItem.icon} alt={menuItem.alt} label={menuItem.label} size="default" />
-                }
-              </div>
+              <Link to={menuItem.slug} key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
+                <NavItem type={menuItem.label == userCtx.page} item={menuItem} size="default" />
+              </Link>
             ))}
           </div>
           <div className="hidden xl:flex items-center gap-4 fixed bottom-[58px] px-400 cursor-pointer" onClick={handleMinimize}>
@@ -106,13 +108,9 @@ const NavBar = (props: {onNavSelection: (item: string) => void}) => {
           <img src={logoSm} alt="Finance logo" className="block fixed p-400" />
           <div className="flex flex-col justify-start items-start fixed top-[125px]">
             {navMenu.map((menuItem) => (
-              <div key={menuItem.label} onClick={() => handleClick(menuItem.label)}>
-                {menuItem.label == userCtx.page ?
-                  <NavItem type="active" icon={menuItem.activeIcon} alt={menuItem.alt} label={menuItem.label} size="mini" />
-                :
-                  <NavItem type="inactive" icon={menuItem.icon} alt={menuItem.alt} label={menuItem.label} size="mini" />
-                }
-              </div>
+              <Link to={menuItem.slug} key={menuItem.label} onClick={() => handleClick(menuItem.label)}>
+                <NavItem type={menuItem.label == userCtx.page} item={menuItem} size="mini" />
+              </Link>
             ))}
           </div>
           <div className="fixed bottom-[58px] px-400 cursor-pointer rotate-180" onClick={handleMaximize}>

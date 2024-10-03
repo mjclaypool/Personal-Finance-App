@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../UI/Button";
 import FinanceContext from "../store/FinanceContext";
@@ -6,6 +7,7 @@ import RecurringCategoryItem from "./RecurringCategoryItem";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
+import UserProgressContext from "../store/UserProgressContext";
 
 // Recurring component
 //
@@ -16,16 +18,22 @@ import SectionWrapper from "../UI/SectionWrapper";
 
 const Recurring = () => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
   const paidBills = finCtx.getRecurringBillsByStatus("paid");
   const upcomingBills = finCtx.getRecurringBillsByStatus("upcoming");
   const dueSoonBills = finCtx.getRecurringBillsByStatus("due-soon");
+
+  function handleClick() {
+    userCtx.updateCurrentPage("Recurring bills");
+    window.scrollTo(0, 0);
+  }
 
   return (
     <SectionWrapper color="white">
       <div className="flex flex-col gap-8">
         <SectionHeading
           start={<SectionTitle title="Recurring Bills" size="lg" />}
-          end={<Button label="See Details" type="tertiary"/>}
+          end={<Link to="/recurring" onClick={handleClick}><Button label="See Details" type="tertiary"/></Link>}
         />
         <div className="flex flex-col gap-3">
           <RecurringCategoryItem

@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../UI/Button";
 import CategorySummary from "./CategorySummary";
@@ -6,6 +7,7 @@ import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
+import UserProgressContext from "../store/UserProgressContext";
 
 import potIcon from "../assets/images/icon-pot.svg";
 
@@ -26,6 +28,7 @@ type potData = {
 
 const Pots = () => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
   const potsForDashboard: potData[] = finCtx.pots.slice(0, 4);
   const totalSaved: string = getTotal(finCtx.pots);
 
@@ -37,12 +40,17 @@ const Pots = () => {
     return finCtx.formatWithoutCents(total);
   }
 
+  function handleClick() {
+    userCtx.updateCurrentPage("Pots");
+    window.scrollTo(0, 0);
+  }
+
   return (
     <SectionWrapper color="white">
       <div className="flex flex-col gap-5">
         <SectionHeading
           start={<SectionTitle title="Pots" size="lg" />}
-          end={<Button label="See Details" type="tertiary"/>}
+          end={<Link to="/pots" onClick={handleClick}><Button label="See Details" type="tertiary"/></Link>}
         />
         <div className="flex flex-col md:flex-row gap-5">
           <div className="flex items-center gap-4 bg-p-beige100 rounded-xl px-200 py-250 md:min-w-[247px]">

@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import BudgetsChart from "./BudgetsChart";
 import Button from "../UI/Button";
@@ -7,6 +8,7 @@ import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
+import UserProgressContext from "../store/UserProgressContext";
 
 // Budgets component
 //
@@ -24,14 +26,20 @@ type budget = {
 
 const Budgets = () => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
   const budgetsForDashboard: budget[] = finCtx.budgets.slice(0, 4);
+
+  function handleClick() {
+    userCtx.updateCurrentPage("Budgets");
+    window.scrollTo(0, 0);
+  }
 
   return (
     <SectionWrapper color="white">
       <div className="flex flex-col gap-5">
         <SectionHeading
           start={<SectionTitle title="Budgets" size="lg" />}
-          end={<Button label="See Details" type="tertiary"/>}
+          end={<Link to="/budgets" onClick={handleClick}><Button label="See Details" type="tertiary"/></Link>}
         />
         <div className="flex flex-col md:flex-row md:justify-between gap-5 md:py-[31px]">
           <BudgetsChart />

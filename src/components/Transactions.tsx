@@ -1,12 +1,13 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Button from "../UI/Button";
+import FinanceContext from "../store/FinanceContext";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
 import TransactionItemAbbr from "./TransactionItemAbbr";
-
-import FinanceContext from "../store/FinanceContext";
+import UserProgressContext from "../store/UserProgressContext";
 
 // Transactions component
 //
@@ -26,14 +27,20 @@ type transaction = {
 
 const Transactions = () => {
   const finCtx = useContext(FinanceContext);
+  const userCtx = useContext(UserProgressContext);
   const transactionsForDashboard: transaction[] = finCtx.transactions.slice(0, 5);
+
+  function handleClick() {
+    userCtx.updateCurrentPage("Transactions");
+    window.scrollTo(0, 0);
+  }
 
   return (
     <SectionWrapper color="white">
       <div className="flex flex-col gap-8">
         <SectionHeading
           start={<SectionTitle title="Transactions" size="lg" />}
-          end={<Button label="View All" type="tertiary"/>}
+          end={<Link to="/transactions" onClick={handleClick}><Button label="View All" type="tertiary"/></Link>}
         />
         <div>
           {transactionsForDashboard.map(transaction => (
