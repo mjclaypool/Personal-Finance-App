@@ -2,7 +2,8 @@ import { useState, useContext } from "react";
 
 import Button from "./Button";
 import ColorsDropdown from "./ColorsDropdown";
-import DropdownMenu from "./DropdownMenu";
+import DropdownOptions from "./DropdownOptions";
+import DropdownWrapper from "./DropdownWrapper";
 import FinanceContext from "../store/FinanceContext";
 import InputField from "./InputField";
 import UserProgressContext from "../store/UserProgressContext";
@@ -19,7 +20,9 @@ type budgetType = {
 const AddBudgetModal = () => {
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
-  const [newBudget, setNewBudget] = useState<budgetType>({category: "", maximum: 0, theme: ""});
+  const [newBudget, setNewBudget] = useState<budgetType>({category: getCategoryOptions()[0], maximum: 0, theme: "#277C78"});
+  const [selectedCategory, setSelectedCategory] = useState(getCategoryOptions()[0])
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const pageTitle = userCtx.modalType + " " + userCtx.page.substring(0, userCtx.page.length-1);
   const addText = "Choose a category to set a spending budget. These categories can help you monitor spending.";
 
@@ -46,6 +49,7 @@ const AddBudgetModal = () => {
       ...prevState,
       category: option
     }))
+    setSelectedCategory(option);
   }
 
   function handleChangeMaximum(value: string) {
@@ -62,6 +66,14 @@ const AddBudgetModal = () => {
     }))
   }
 
+  function handleToggle() {
+    if (dropdownIsOpen == false) {
+      setDropdownIsOpen(true);
+    } else {
+      setDropdownIsOpen(false);
+    }
+  }
+
   function handleSubmit() {
     finCtx.addBudget(newBudget);
     handleCloseModal();
@@ -76,7 +88,11 @@ const AddBudgetModal = () => {
       <p className="text-preset4 text-p-grey500">{addText}</p>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Budget Category</h2>
-        <DropdownMenu options={getCategoryOptions()} didChange={handleChangeCategory} />
+        <DropdownWrapper selected={selectedCategory} width="w-full" didToggle={handleToggle}>
+          <>
+            {dropdownIsOpen && <DropdownOptions options={getCategoryOptions()} didSelect={handleChangeCategory} />}
+          </>
+        </DropdownWrapper>
       </div>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>

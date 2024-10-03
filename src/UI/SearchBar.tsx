@@ -1,5 +1,4 @@
-import FilterDropdown from "./FilterDropdown";
-import SortDropdown from "./SortDropdown";
+import Dropdown from "./Dropdown";
 
 import searchIcon from "../assets/images/icon-search.svg";
 
@@ -13,15 +12,15 @@ const SearchBar = (props: {didChange: (rule: string) => void, sort?: boolean, fi
       <div className="relative flex flex-1 items-center w-[215px] max-w-[320px] h-full border-[1px] border-p-beige500 rounded-lg">
         <input
           type="text"
-          className="placeholder:text-p-beige500 text-p-grey900 rounded-lg px-250 w-full outline-none"
+          className="placeholder:text-preset4 placeholder:text-p-beige500 text-p-grey900 rounded-lg px-250 pr-500 w-full outline-none overflow-ellipsis"
           placeholder="Search transactions"
-          onChange = {handleChange}
+          onChange={handleChange}
         />
           <img src={searchIcon} alt="Search Icon" className="absolute top-[50%] -translate-y-[50%] right-5" />
       </div>
       <div className="flex items-center gap-6">
-        {props.sort && <SortDropdown />}
-        {props.filter && <FilterDropdown />}
+        {props.sort && <Dropdown label="Sort by" initial="Latest" />}
+        {props.filter && <Dropdown label="Category" initial="All Transactions" filter={true} />}
       </div>
     </div>
   )

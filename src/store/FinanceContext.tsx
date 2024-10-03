@@ -258,6 +258,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
       }
     }
     recurringThisMonth = sortTransactions(recurringThisMonth, sortingRule);
+    recurringThisMonth = searchTransactions(recurringThisMonth, searchRule);
     return recurringThisMonth;
   }
 

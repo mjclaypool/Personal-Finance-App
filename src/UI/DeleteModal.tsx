@@ -15,7 +15,7 @@ const DeleteModal = (props: {name: string}) => {
 
   function handleCloseModal() {
     userCtx.updateModalType("");
-    userCtx.updateDropdown("");
+    userCtx.updateSection("");
   }
 
   function handleDelete() {

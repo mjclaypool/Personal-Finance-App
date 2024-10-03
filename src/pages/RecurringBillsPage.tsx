@@ -17,6 +17,11 @@ import billsIcon from "../assets/images/icon-recurring-bills.svg";
 
 const RecurringBillsPage = () => {
   const finCtx = useContext(FinanceContext);
+  const recurringBills = finCtx.getRecurringBills();
+
+  function handleSearchInput(rule: string) {
+    finCtx.updateSearchRule(rule);
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -43,8 +48,8 @@ const RecurringBillsPage = () => {
         <div className="xl:flex-1">
           <SectionWrapper color="white">
             <div className="flex flex-col gap-6">
-              <SearchBar sort={true} />
-              <RecurringItemsList />
+              <SearchBar didChange={handleSearchInput} sort={true} />
+              <RecurringItemsList bills={recurringBills} />
             </div>
           </SectionWrapper>
         </div>

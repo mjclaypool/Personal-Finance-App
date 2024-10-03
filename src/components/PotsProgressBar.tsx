@@ -19,6 +19,8 @@ type potsBarProps = {
 
 const PotsProgressBar = (props: potsBarProps) => {
   const finCtx = useContext(FinanceContext);
+  let percentageTextColor = "text-p-grey500";
+  let changeBarColor = "bg-p-grey500";
 
   let barColor = finCtx.getColorVar(props.theme);
   if (props.theme == "#201F24") {
@@ -26,9 +28,12 @@ const PotsProgressBar = (props: potsBarProps) => {
   }
 
   const changeAmount = props.add || props.withdraw || 0;
-  let changeBarColor = "bg-s-green";
-  if (props.withdraw) {
+  if (props.add) {
+    changeBarColor = "bg-s-green";
+    percentageTextColor = "text-s-green"
+  } else if (props.withdraw) {
     changeBarColor = "bg-s-red"
+    percentageTextColor = "text-s-red"
   }
 
   let totalPercentageAsString = getPercentage(props.total);
@@ -58,7 +63,7 @@ const PotsProgressBar = (props: potsBarProps) => {
           {changeAmount > 0 && <div className={`${changeBarColor} h-full rounded-full`} style={{ width: changePercentAsString }} />}
         </div>
         <div className="flex justify-between items-center">
-          <h4 className="text-preset5 text-p-grey500 font-bold">{newTotalPercentAsString}</h4>
+          <h4 className={`text-preset5 ${percentageTextColor} font-bold`}>{newTotalPercentAsString}</h4>
           <p className="text-preset5 text-p-grey500">Target of ${props.target}</p>
         </div>
       </div>

@@ -72,9 +72,10 @@ const NavBar = () => {
 
   function handleClick(menuLabel: string) {
     userCtx.updateCurrentPage(menuLabel);
-    userCtx.updateDropdown("");
+    userCtx.updateSection("");
     finCtx.updateSortingRule("Latest");
     finCtx.updateFilterRule("All Transactions");
+    finCtx.updateSearchRule("");
     window.scrollTo(0, 0);
   }
 
