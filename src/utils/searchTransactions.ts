@@ -7,6 +7,35 @@ type transactionType = {
   recurring: boolean
 }
 
+export function searchTransactions(transactions: transactionType[], rule: string) {
+  // Filter transactions array by search input field
+  if (rule !== "") {
+    let filteredArray = [];
+    for (let i=0; i<transactions.length; i++) {
+      if (transactions[i].name.substring(0, rule.length) == rule) {
+        filteredArray.push(transactions[i]);
+      }
+    }
+    return filteredArray;
+  }
+  return transactions;
+}
+
+export function filterTransactions(transactions: transactionType[], rule: string) {
+  // Filter transactions array by selected category
+  if (rule !== "All Transactions") {
+    let filteredArray = [];
+    for (let i=0; i<transactions.length; i++) {
+      if (transactions[i].category == rule) {
+        filteredArray.push(transactions[i]);
+      }
+    }
+    return filteredArray;
+  }
+
+  return transactions;
+}
+
 export function sortTransactions(transactions: transactionType[], rule: string) {
   // Bubble sort algorithm to sort the array from the latest to oldest transactions
   if (rule == "Latest") {

@@ -16,12 +16,16 @@ const TransactionsPage = () => {
   const finCtx = useContext(FinanceContext);
   const transactions = finCtx.getTransactions();
 
+  function handleSearchInput(rule: string) {
+    finCtx.updateSearchRule(rule);
+  }
+
   return (
     <div className="flex flex-col gap-8">
       <PageHeading pageTitle="Transactions" />
       <SectionWrapper color="white">
         <div className="flex flex-col gap-6">
-          <SearchBar sort={true} filter={true} />
+          <SearchBar didChange={handleSearchInput} sort={true} filter={true} />
           <div className="flex flex-col">
             <TransactionHeaderBar type="transactions" />
             {transactions.map(transaction => (

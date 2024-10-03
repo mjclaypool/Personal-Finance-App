@@ -2,9 +2,8 @@ import { createContext, JSX, useState } from "react";
 
 import { balance, transactions, budgets, pots } from "../data/data.json";
 import { formatterWithCents, formatterWithoutCents, formatDayMonthYear, formatDayWithSuffix } from "../utils/formatting";
+import { searchTransactions, filterTransactions, sortTransactions } from "../utils/searchTransactions";
 import { colorOptions } from "../utils/colors";
-import { filterTransactions } from "../utils/filterTransactions";
-import { sortTransactions } from "../utils/sortTransactions";
 
 type balanceType = {
   current: number,
@@ -64,7 +63,8 @@ interface FinContextType {
   getRecurringBillsByStatus: (status: string) => transactionType[],
   getRecurringBillsByStatusTotal: (bills: transactionType[]) => number,
   updateSortingRule: (rule: string) => void,
-  updateFilterRule: (rule: string) => void
+  updateFilterRule: (rule: string) => void,
+  updateSearchRule: (rule: string) => void
 }
 
 const FinanceContext = createContext({} as FinContextType);
@@ -74,6 +74,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
   const [currentPots, setCurrentPots] = useState(pots);
   const [sortingRule, setSortingRule] = useState("Latest");
   const [filterRule, setFilterRule] = useState("All Transactions");
+  const [searchRule, setSearchRule] = useState("");
   const currentBalance = balance;
   const currentTransactions = transactions;
 
@@ -178,6 +179,7 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     let transactionsArray = currentTransactions;
     transactionsArray = filterTransactions(transactionsArray, filterRule);
     transactionsArray = sortTransactions(transactionsArray, sortingRule);
+    transactionsArray = searchTransactions(transactionsArray, searchRule);
     return transactionsArray;
   }
 
@@ -312,6 +314,10 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     setFilterRule(rule);
   }
 
+  function updateSearchRule(rule: string) {
+    setSearchRule(rule);
+  }
+
   const FinanceCtx = {
     balance: currentBalance,
     transactions: currentTransactions,
@@ -342,7 +348,8 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     getRecurringBillsByStatus,
     getRecurringBillsByStatusTotal,
     updateSortingRule,
-    updateFilterRule
+    updateFilterRule,
+    updateSearchRule
   }
 
   return <FinanceContext.Provider value={FinanceCtx}>{props.children}</FinanceContext.Provider>

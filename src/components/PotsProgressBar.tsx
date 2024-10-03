@@ -8,7 +8,16 @@ import FinanceContext from "../store/FinanceContext";
 // Function:
 // -- Displays a pot's savings details, including the amount saved and the target amount.
 
-const PotsProgressBar = (props: {title: string, total: number, add?: number, withdraw?: number, target: number, theme: string}) => {
+type potsBarProps = {
+  title: string,
+  total: number,
+  add?: number,
+  withdraw?: number,
+  target: number,
+  theme: string
+}
+
+const PotsProgressBar = (props: potsBarProps) => {
   const finCtx = useContext(FinanceContext);
 
   let barColor = finCtx.getColorVar(props.theme);
@@ -16,11 +25,10 @@ const PotsProgressBar = (props: {title: string, total: number, add?: number, wit
     barColor = "bg-p-grey900"
   }
 
-  let changeAmount = 0;
-  if (props.add) {
-    changeAmount = props.add;
-  } else if (props.withdraw) {
-    changeAmount = props.withdraw;
+  const changeAmount = props.add || props.withdraw || 0;
+  let changeBarColor = "bg-s-green";
+  if (props.withdraw) {
+    changeBarColor = "bg-s-red"
   }
 
   let totalPercentageAsString = getPercentage(props.total);
@@ -47,8 +55,7 @@ const PotsProgressBar = (props: {title: string, total: number, add?: number, wit
       <div className="flex flex-col gap-[13px]">
         <div className="flex h-2 bg-p-beige100 rounded-full">
           <div className={`${barColor} h-full rounded-full`} style={{ width: totalPercentageAsString }} />
-          {(changeAmount > 0 && props.add) && <div className="bg-s-green h-full rounded-full" style={{ width: changePercentAsString }} />}
-          {(changeAmount > 0 && props.withdraw) && <div className="bg-s-red h-full rounded-full" style={{ width: changePercentAsString }} />}
+          {changeAmount > 0 && <div className={`${changeBarColor} h-full rounded-full`} style={{ width: changePercentAsString }} />}
         </div>
         <div className="flex justify-between items-center">
           <h4 className="text-preset5 text-p-grey500 font-bold">{newTotalPercentAsString}</h4>
