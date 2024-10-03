@@ -2,10 +2,10 @@ import { createContext, JSX, useState } from "react";
 
 interface UserProgressContextType {
   page: string
-  dropdown: string,
+  section: string,
   modalType: string,
   updateCurrentPage: (page: string) => void,
-  updateDropdown: (cat: string) => void,
+  updateSection: (cat: string) => void,
   updateModalType: (type: string) => void,
 }
 
@@ -13,18 +13,18 @@ const UserProgressContext = createContext({} as UserProgressContextType);
 
 export function UserProgressContextProvider(props: {children: JSX.Element}) {
   const [currentPage, setCurrentPage] = useState("Overview")
-  const [currentDropdown, setCurrentDropdown] = useState("");
+  const [currentSection, setCurrentSection] = useState("");
   const [currentModal, setCurrentModal] = useState("");
 
   function updateCurrentPage(page: string) {
     setCurrentPage(page);
   }
 
-  function updateDropdown(cat: string) {
-    if (cat == currentDropdown) {
-      setCurrentDropdown("");
+  function updateSection(cat: string) {
+    if (cat == currentSection) {
+      setCurrentSection("");
     } else {
-      setCurrentDropdown(cat);
+      setCurrentSection(cat);
     }
   }
 
@@ -34,10 +34,10 @@ export function UserProgressContextProvider(props: {children: JSX.Element}) {
 
   const UserProgressCtx = {
     page: currentPage,
-    dropdown: currentDropdown,
+    section: currentSection,
     modalType: currentModal,
     updateCurrentPage,
-    updateDropdown,
+    updateSection,
     updateModalType
   }
 

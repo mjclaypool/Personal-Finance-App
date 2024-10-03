@@ -37,7 +37,7 @@ const EditBudgetModal = (props: {budget: budgetType}) => {
 
   function handleCloseModal() {
     userCtx.updateModalType("");
-    userCtx.updateDropdown("");
+    userCtx.updateSection("");
   }
 
   function handleChangeMaximum(value: string) {

@@ -47,7 +47,7 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
         <div className="relative flex flex-col gap-5">
           <SectionHeading
             start={<SectionTitle title={props.cat} size="lg" theme={props.theme} />}
-            end={<div onClick={() => userCtx.updateDropdown(props.cat)}><Button type="ellipse"/></div>}
+            end={<div onClick={() => userCtx.updateSection(props.cat)}><Button type="ellipse"/></div>}
           />
           <p className="text-preset4 text-p-grey500">Maximum of {finCtx.formatWithCents(props.max)}</p>
           <div className="h-8 bg-p-beige100 rounded-[4px] p-1">
@@ -62,9 +62,9 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
             </div>
           </div>
           <BudgetsCategorySpending cat={props.cat} />
-          {userCtx.dropdown == props.cat && <DropdownEditDelete />}
-          {(userCtx.dropdown == props.cat && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={finCtx.getBudget(props.cat)} /></Modal>}
-          {(userCtx.dropdown == props.cat && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.cat} /></Modal>}
+          {userCtx.section == props.cat && <DropdownEditDelete />}
+          {(userCtx.section == props.cat && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={finCtx.getBudget(props.cat)} /></Modal>}
+          {(userCtx.section == props.cat && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.cat} /></Modal>}
         </div>
       </SectionWrapper>
     </>

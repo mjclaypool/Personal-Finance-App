@@ -1,12 +1,16 @@
 import { useContext } from "react";
 
 import AddPotModal from "../UI/AddPotModal";
+import AddToPotModal from "../UI/AddToPotModal";
 import Button from "../UI/Button";
+import DeleteModal from "../UI/DeleteModal";
+import EditPotModal from "../UI/EditPotModal";
 import FinanceContext from "../store/FinanceContext";
 import Modal from "../UI/Modal";
 import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
 import UserProgressContext from "../store/UserProgressContext";
+import WithdrawFromPotModal from "../UI/WithdrawFromPotModal";
 
 // Pots Page
 //
@@ -34,6 +38,10 @@ const PotsPage = () => {
               total={pot.total}
               theme={pot.theme}
             />
+            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <Modal><EditPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <Modal><DeleteModal name={pot.name} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <Modal><AddToPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <Modal><WithdrawFromPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
           </div>
         ))}
       </div>

@@ -25,7 +25,7 @@ const AddPotModal = () => {
 
   function handleCloseModal() {
     userCtx.updateModalType("");
-    userCtx.updateDropdown("");
+    userCtx.updateSection("");
   }
 
   function handleChangeName(option: string) {
@@ -67,7 +67,7 @@ const AddPotModal = () => {
       </div>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Target</h2>
-        <InputField placeholder="e.g.2000" didChange={handleChangeTarget} />
+        <InputField placeholder="e.g. 2000" didChange={handleChangeTarget} />
       </div>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>

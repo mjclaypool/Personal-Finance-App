@@ -1,11 +1,7 @@
 import { useContext } from "react";
 
-import EditPotModal from "../UI/EditPotModal";
 import Button from "../UI/Button";
-import DeleteModal from "../UI/DeleteModal";
 import DropdownEditDelete from "../UI/DropdownEditDelete";
-import FinanceContext from "../store/FinanceContext";
-import Modal from "../UI/Modal";
 import PotsProgressBar from "../components/PotsProgressBar";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
@@ -21,8 +17,12 @@ import UserProgressContext from "../store/UserProgressContext";
 // ---- Allows the user to add/withdraw money from the target pot.
 
 const PotsCategorySummary = (props: {name: string, target: number, total: number, theme: string}) => {
-  const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
+
+  function handleClick(modal: string) {
+    userCtx.updateSection(props.name);
+    userCtx.updateModalType(modal);
+  }
 
   return (
     <>
@@ -30,16 +30,27 @@ const PotsCategorySummary = (props: {name: string, target: number, total: number
         <div className="relative flex flex-col gap-8">
           <SectionHeading
             start={<SectionTitle title={props.name} size="lg" theme={props.theme} />}
-            end={<div onClick={() => userCtx.updateDropdown(props.name)}><Button type="ellipse"/></div>}
+            end={
+              <div onClick={() => userCtx.updateSection(props.name)}>
+                <Button type="ellipse"/>
+              </div>
+            }
           />
-          <PotsProgressBar total={props.total} target={props.target} theme={props.theme} />
+          <PotsProgressBar
+            title="Total Saved"
+            total={props.total}
+            target={props.target}
+            theme={props.theme}
+          />
           <div className="flex justify-between gap-4 mb-[14px]">
-            <Button type="secondary" label="+ Add Money" />
-            <Button type="secondary" label="Withdraw" />
+            <div className="flex flex-1" onClick={() => handleClick("Add Money")}>
+              <Button type="secondary" label="+ Add Money" />
+            </div>
+            <div className="flex flex-1" onClick={() => handleClick("Withdraw")}>
+              <Button type="secondary" label="Withdraw" />
+            </div>
           </div>
-          {userCtx.dropdown == props.name && <DropdownEditDelete />}
-          {(userCtx.dropdown == props.name && userCtx.modalType == "Edit") && <Modal><EditPotModal pot={finCtx.getPot(props.name)} /></Modal>}
-          {(userCtx.dropdown == props.name && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.name} /></Modal>}
+          {(userCtx.section == props.name && userCtx.modalType == "") && <DropdownEditDelete />}
         </div>
       </SectionWrapper>
     </>

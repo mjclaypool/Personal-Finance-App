@@ -38,7 +38,7 @@ const EditPotModal = (props: {pot: potType}) => {
 
   function handleCloseModal() {
     userCtx.updateModalType("");
-    userCtx.updateDropdown("");
+    userCtx.updateSection("");
   }
 
   function handleChangeTarget(value: string) {

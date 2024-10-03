@@ -1,7 +1,4 @@
-import { useState } from "react";
-
 const InputField = (props: {placeholder: string, plainText?: boolean, editValue?: boolean, didChange: (rule: string) => void}) => {
-  const [input, setInput] = useState("");
   const placeholderText = props.placeholder;
   let fieldIndent = "pl-500";
   let placeholderColor = "placeholder:text-p-beige500";
@@ -13,11 +10,7 @@ const InputField = (props: {placeholder: string, plainText?: boolean, editValue?
   }
 
   function handleChange(e: any) {
-    setInput(e.target.value)
-  }
-
-  function handleBlur() {
-    props.didChange(input)
+    props.didChange(e.target.value)
   }
 
   return (
@@ -28,7 +21,6 @@ const InputField = (props: {placeholder: string, plainText?: boolean, editValue?
           className={`text-p-grey900 rounded-lg outline-none px-250 ${fieldIndent} py-[10px] ${placeholderColor}`}
           placeholder={placeholderText}
           onChange={handleChange}
-          onBlur={handleBlur}
         />
         {!props.plainText && <p className="absolute top-[50%] -translate-y-[50%] left-5 text-p-grey500">$</p>}
       </div>
