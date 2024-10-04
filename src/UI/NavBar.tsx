@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from 'react';
+import { Link, useLocation } from "react-router-dom";
 
 import FinanceContext from '../store/FinanceContext';
 import UserProgressContext from '../store/UserProgressContext';
@@ -31,7 +31,13 @@ type navItem = {
 const NavBar = () => {
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
+  const location = useLocation();
   const [miniNav, setMiniNav] = useState(false);
+
+  useEffect(() => {
+    const navIndex = navMenu.findIndex(obj => obj.slug == location.pathname);
+    userCtx.updateCurrentPage(navMenu[navIndex].label);
+  }, [location.pathname])
 
   const navMenu: navItem[] = [
     {
@@ -71,8 +77,7 @@ const NavBar = () => {
     }
   ]
 
-  function handleClick(menuLabel: string) {
-    userCtx.updateCurrentPage(menuLabel);
+  function handleChangePage() {
     userCtx.updateSection("");
     finCtx.updateSortingRule("Latest");
     finCtx.updateFilterRule("All Transactions");
@@ -95,7 +100,7 @@ const NavBar = () => {
         {miniNav && <img src={logoSm} alt="Finance logo" className="block fixed p-400" />}
         <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
           {navMenu.map((menuItem) => (
-            <Link to={menuItem.slug} key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
+            <Link to={menuItem.slug} key={menuItem.label} className="flex-1 xl:flex-none" onClick={handleChangePage}>
               <NavItem active={menuItem.label == userCtx.page} item={menuItem} minimize={miniNav} />
             </Link>
           ))}
