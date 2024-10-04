@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import FinanceContext from '../store/FinanceContext';
 import UserProgressContext from '../store/UserProgressContext';
 import NavItem from './NavItem';
+import NavBarWrapper from './NavBarWrapper';
 
 import logo from '../assets/images/logo-large.svg';
 import logoSm from '../assets/images/logo-small.svg';
@@ -80,46 +81,32 @@ const NavBar = () => {
   }
 
   function handleMinimize() {
+    if (miniNav == false) {
     setMiniNav(true);
-  }
-
-  function handleMaximize() {
-    setMiniNav(false);
+    } else {
+      setMiniNav(false);
+    }
   }
 
   return (
-    <>
-      {!miniNav ?
-        <div className="sticky bottom-0 xl:relative font-pubSans bg-p-grey900 rounded-t-xl pt-100 xl:min-h-[100vh] xl:w-[300px] xl:rounded-l-none xl:rounded-r-xl">
-          <img src={logo} alt="Finance logo" className="hidden xl:block xl:fixed p-400" />
-          <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
-            {navMenu.map((menuItem) => (
-              <Link to={menuItem.slug} key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
-                <NavItem type={menuItem.label == userCtx.page} item={menuItem} size="default" />
-              </Link>
-            ))}
-          </div>
-          <div className="hidden xl:flex items-center gap-4 fixed bottom-[58px] px-400 cursor-pointer" onClick={handleMinimize}>
-            <img src={minMenuIcon} alt="Minimize menu icon" />
-            <p className="text-preset3 text-p-grey300">Minimize Menu</p>
-          </div>
+    <NavBarWrapper minimize={miniNav}>
+      <>
+        {!miniNav && <img src={logo} alt="Finance logo" className="hidden xl:block xl:fixed p-400" />}
+        {miniNav && <img src={logoSm} alt="Finance logo" className="block fixed p-400" />}
+        <div className="flex justify-between items-center xl:fixed xl:top-[125px] xl:flex-col xl:justify-start xl:items-start md:gap-[42px] xl:gap-0 px-200 md:px-500 xl:px-0">
+          {navMenu.map((menuItem) => (
+            <Link to={menuItem.slug} key={menuItem.label} className="flex-1 xl:flex-none" onClick={() => handleClick(menuItem.label)}>
+              <NavItem active={menuItem.label == userCtx.page} item={menuItem} minimize={miniNav} />
+            </Link>
+          ))}
         </div>
-      :
-        <div className="hidden xl:flex relative font-pubSans bg-p-grey900 pt-100 min-h-[100vh] w-[88px] rounded-r-xl">
-          <img src={logoSm} alt="Finance logo" className="block fixed p-400" />
-          <div className="flex flex-col justify-start items-start fixed top-[125px]">
-            {navMenu.map((menuItem) => (
-              <Link to={menuItem.slug} key={menuItem.label} onClick={() => handleClick(menuItem.label)}>
-                <NavItem type={menuItem.label == userCtx.page} item={menuItem} size="mini" />
-              </Link>
-            ))}
-          </div>
-          <div className="fixed bottom-[58px] px-400 cursor-pointer rotate-180" onClick={handleMaximize}>
-            <img src={minMenuIcon} alt="Minimize menu icon" />
-          </div>
+        <div className="hidden xl:flex items-center gap-4 fixed bottom-[58px] px-400 cursor-pointer" onClick={handleMinimize}>
+          {!miniNav && <img src={minMenuIcon} alt="Minimize menu icon" />}
+          {miniNav && <img src={minMenuIcon} alt="Minimize menu icon" className="rotate-180" />}
+          {!miniNav && <p className="text-preset3 text-p-grey300">Minimize Menu</p>}
         </div>
-      }
-    </>
+      </>
+    </NavBarWrapper>
   )
 }
 
