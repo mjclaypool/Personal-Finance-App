@@ -1,7 +1,14 @@
-const InputField = (props: {placeholder: string, plainText?: boolean, editValue?: boolean, didChange: (rule: string) => void}) => {
-  const placeholderText = props.placeholder;
+type inputProps = {
+  placeholder: string,
+  plainText?: boolean,
+  editValue?: boolean,
+  didChange: (rule: string) => void
+}
+
+const InputField = (props: inputProps) => {
   let fieldIndent = "pl-500";
   let placeholderColor = "placeholder:text-p-beige500";
+
   if (props.plainText) {
     fieldIndent = "";
   }
@@ -19,7 +26,7 @@ const InputField = (props: {placeholder: string, plainText?: boolean, editValue?
         <input
           type="text"
           className={`text-p-grey900 rounded-lg outline-none px-250 ${fieldIndent} py-[10px] ${placeholderColor}`}
-          placeholder={placeholderText}
+          placeholder={props.placeholder}
           onChange={handleChange}
         />
         {!props.plainText && <p className="absolute top-[50%] -translate-y-[50%] left-5 text-p-grey500">$</p>}

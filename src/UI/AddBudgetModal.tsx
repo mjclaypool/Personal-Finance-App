@@ -17,12 +17,18 @@ type budgetType = {
   theme: string
 }
 
+type errorType = {
+  maximum: boolean
+}
+
 const AddBudgetModal = () => {
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
   const [newBudget, setNewBudget] = useState<budgetType>({category: getCategoryOptions()[0], maximum: 0, theme: "#277C78"});
   const [selectedCategory, setSelectedCategory] = useState(getCategoryOptions()[0])
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
+  const [errors, setErrors] = useState<errorType>({maximum: false});
+
   const pageTitle = userCtx.modalType + " " + userCtx.page.substring(0, userCtx.page.length-1);
   const addText = "Choose a category to set a spending budget. These categories can help you monitor spending.";
 
@@ -53,10 +59,21 @@ const AddBudgetModal = () => {
   }
 
   function handleChangeMaximum(value: string) {
-    setNewBudget(prevState => ({
-      ...prevState,
-      maximum: Number(value)
-    }))
+    if (value.match(/^[0-9]+$/) && Number(value) > 0) {
+      setNewBudget(prevState => ({
+        ...prevState,
+        maximum: Number(value)
+      }))
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: false
+      }));
+    } else {
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: true
+      }));
+    }
   }
 
   function handleChangeTheme(colorCode: string) {
@@ -75,8 +92,16 @@ const AddBudgetModal = () => {
   }
 
   function handleSubmit() {
-    finCtx.addBudget(newBudget);
-    handleCloseModal();
+    if (errors.maximum || newBudget.maximum <= 0) {
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: true
+      }));
+    }
+    if ((errors.maximum == false && newBudget.maximum !== 0)) {
+      finCtx.addBudget(newBudget);
+      handleCloseModal();
+    }
   }
 
   return (
@@ -97,6 +122,7 @@ const AddBudgetModal = () => {
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
         <InputField placeholder="e.g. 2000" didChange={handleChangeMaximum} />
+        {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
       </div>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
