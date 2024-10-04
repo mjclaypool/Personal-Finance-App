@@ -6,7 +6,7 @@ import BudgetSpendingSummary from "../components/BudgetSpendingSummary";
 import Button from "../UI/Button";
 import FinanceContext from "../store/FinanceContext";
 import UserProgressContext from "../store/UserProgressContext";
-import Modal from "../UI/Modal";
+import ModalWrapper from "../UI/ModalWrapper";
 import PageHeading from "../UI/PageHeading";
 
 // Budgets Page
@@ -41,7 +41,7 @@ const BudgetsPage = () => {
           ))}
         </div>
       </div>
-      {userCtx.modalType == "Add New" && <Modal><AddBudgetModal /></Modal>}
+      {userCtx.modalType == "Add New" && <ModalWrapper><AddBudgetModal /></ModalWrapper>}
     </div>
   )
 }

@@ -3,11 +3,11 @@ import { createPortal } from 'react-dom';
 
 import SectionWrapper from './SectionWrapper';
 
-const Modal = (props: {children: JSX.Element}) => {
+const ModalWrapper = (props: {children: JSX.Element}) => {
   return createPortal(
     <>
       <dialog
-        className="fixed top-0 flex justify-center items-center font-pubSans bg-p-grey900 bg-opacity-20 w-full h-full"
+        className="fixed top-0 flex justify-center items-center font-pubSans bg-p-grey900 bg-opacity-20 w-full h-full px-200"
         open
       >
         <div className="w-full max-w-[560px]">
@@ -21,4 +21,4 @@ const Modal = (props: {children: JSX.Element}) => {
   )
 }
 
-export default Modal;
+export default ModalWrapper;

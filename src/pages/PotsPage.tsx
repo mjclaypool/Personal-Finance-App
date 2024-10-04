@@ -6,7 +6,7 @@ import Button from "../UI/Button";
 import DeleteModal from "../UI/DeleteModal";
 import EditPotModal from "../UI/EditPotModal";
 import FinanceContext from "../store/FinanceContext";
-import Modal from "../UI/Modal";
+import ModalWrapper from "../UI/ModalWrapper";
 import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
 import UserProgressContext from "../store/UserProgressContext";
@@ -37,14 +37,14 @@ const PotsPage = () => {
         {finCtx.pots.map((pot) => (
           <div key={pot.name} className="xl:flex-1 xl:min-w-[430px]">
             <PotsCategorySummary pot={pot} />
-            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <Modal><EditPotModal pot={pot} /></Modal>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <Modal><DeleteModal name={pot.name} /></Modal>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <Modal><AddToPotModal pot={pot} /></Modal>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <Modal><WithdrawFromPotModal pot={pot} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <ModalWrapper><EditPotModal pot={pot} /></ModalWrapper>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <ModalWrapper><DeleteModal name={pot.name} /></ModalWrapper>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <ModalWrapper><AddToPotModal pot={pot} /></ModalWrapper>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <ModalWrapper><WithdrawFromPotModal pot={pot} /></ModalWrapper>}
           </div>
         ))}
       </div>
-      {userCtx.modalType == "Add New" && <Modal><AddPotModal /></Modal>}
+      {userCtx.modalType == "Add New" && <ModalWrapper><AddPotModal /></ModalWrapper>}
     </div>
   )
 }

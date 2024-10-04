@@ -7,7 +7,7 @@ import CategorySummary from "../components/CategorySummary";
 import DeleteModal from "../UI/DeleteModal";
 import DropdownEditDelete from "../UI/DropdownEditDelete";
 import FinanceContext from "../store/FinanceContext";
-import Modal from "../UI/Modal";
+import ModalWrapper from "../UI/ModalWrapper";
 import SectionHeading from "../UI/SectionHeading";
 import SectionTitle from "../UI/SectionTitle";
 import SectionWrapper from "../UI/SectionWrapper";
@@ -81,8 +81,8 @@ const BudgetsCategorySummary = ( props: {budget: budgetType, spending: transacti
           </div>
           <BudgetsCategorySpending cat={props.budget.category} />
           {userCtx.section == props.budget.category && <DropdownEditDelete />}
-          {(userCtx.section == props.budget.category && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={props.budget} /></Modal>}
-          {(userCtx.section == props.budget.category && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.budget.category} /></Modal>}
+          {(userCtx.section == props.budget.category && userCtx.modalType == "Edit" ) && <ModalWrapper><EditBudgetModal budget={props.budget} /></ModalWrapper>}
+          {(userCtx.section == props.budget.category && userCtx.modalType == "Delete") && <ModalWrapper><DeleteModal name={props.budget.category} /></ModalWrapper>}
         </div>
       </SectionWrapper>
     </>
