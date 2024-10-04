@@ -40,7 +40,7 @@ const ColorsDropdown = (props: {initialName?: string, initialColor?: string, did
           <p>{selectedName}</p>
         </div>
         {dropdownIsOpen == true &&
-          <div className="absolute z-10 w-full max-h-[300px] top-14 right-0 flex flex-col bg-white rounded-lg py-150 px-250 shadow-dropdown overflow-y-scroll">
+          <div className="absolute z-10 w-full max-h-[212px] top-14 right-0 flex flex-col bg-white rounded-lg py-150 px-250 shadow-dropdown overflow-y-scroll">
             {colorOptions.map((option) => (
               <div key={option.name}>
                 <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleChange(option)}>
