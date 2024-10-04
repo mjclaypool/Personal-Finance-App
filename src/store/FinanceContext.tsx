@@ -52,8 +52,6 @@ interface FinContextType {
   getColorOptions: () => {code: string, color: string, name: string}[],
   getCatArray: (type: string, cat: string) => string[],
   getTransactions: () => transactionType[],
-  getPot: (name: string) => potType,
-  getBudget: (cat: string) => budgetType,
   getBudgetSpending: () => transactionType[],
   getBudgetSpendingByCat: (cat: string, spending: transactionType[]) => number,
   getBudgetSpendingTotal: (spending: transactionType[]) => number,
@@ -181,22 +179,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     transactionsArray = sortTransactions(transactionsArray, sortingRule);
     transactionsArray = searchTransactions(transactionsArray, searchRule);
     return transactionsArray;
-  }
-
-  function getPot(name: string) {
-    const potIndex = pots.findIndex(obj => obj.name == name);
-    if (potIndex > -1) {
-      return pots[potIndex];
-    }
-    return pots[0];
-  }
-
-  function getBudget(cat: string) {
-    const budgetIndex = budgets.findIndex(obj => obj.category == cat);
-    if (budgetIndex > -1) {
-      return budgets[budgetIndex];
-    }
-    return budgets[0];
   }
 
   function getBudgetSpending() {
@@ -338,8 +320,6 @@ export function FinanceContextProvider(props: {children: JSX.Element}) {
     getColorOptions,
     getCatArray,
     getTransactions,
-    getPot,
-    getBudget,
     getBudgetSpending,
     getBudgetSpendingByCat,
     getBudgetSpendingTotal,

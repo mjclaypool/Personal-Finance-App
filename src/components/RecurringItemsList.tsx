@@ -1,3 +1,6 @@
+import { useContext } from "react";
+
+import FinanceContext from "../store/FinanceContext";
 import RecurringItem from "../components/RecurringItem";
 import TransactionHeaderBar from "./TransactionHeaderBar";
 
@@ -7,20 +10,14 @@ import TransactionHeaderBar from "./TransactionHeaderBar";
 // Function:
 // -- Displays a list of all recurring monthly bills.
 
-type transactionType = {
-  avatar: string,
-  name: string,
-  category: string,
-  date: string,
-  amount: number,
-  recurring: boolean
-}
+const RecurringItemsList = () => {
+  const finCtx = useContext(FinanceContext);
+  const recurringBills = finCtx.getRecurringBills();
 
-const RecurringItemsList = (props: {bills: transactionType[]}) => {
   return (
     <div>
       <TransactionHeaderBar type="recurring" />
-      {props.bills.map(transaction => (
+      {recurringBills.map(transaction => (
         <div key={transaction.name + transaction.date}>
           <RecurringItem
             avatar={transaction.avatar}
@@ -28,7 +25,7 @@ const RecurringItemsList = (props: {bills: transactionType[]}) => {
             date={transaction.date}
             amount={transaction.amount}
           />
-          {props.bills.indexOf(transaction) < (props.bills.length - 1) &&
+          {recurringBills.indexOf(transaction) < (recurringBills.length - 1) &&
             <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-5"/>
           }
         </div>

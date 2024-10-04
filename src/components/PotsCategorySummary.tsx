@@ -16,11 +16,18 @@ import UserProgressContext from "../store/UserProgressContext";
 // ---- Allows the user to edit/delete the target pot.
 // ---- Allows the user to add/withdraw money from the target pot.
 
-const PotsCategorySummary = (props: {name: string, target: number, total: number, theme: string}) => {
+type potType = {
+  name: string,
+  target: number,
+  total: number,
+  theme: string
+}
+
+const PotsCategorySummary = (props: {pot: potType}) => {
   const userCtx = useContext(UserProgressContext);
 
   function handleClick(modal: string) {
-    userCtx.updateSection(props.name);
+    userCtx.updateSection(props.pot.name);
     userCtx.updateModalType(modal);
   }
 
@@ -29,18 +36,18 @@ const PotsCategorySummary = (props: {name: string, target: number, total: number
       <SectionWrapper color="white">
         <div className="relative flex flex-col gap-8">
           <SectionHeading
-            start={<SectionTitle title={props.name} size="lg" theme={props.theme} />}
+            start={<SectionTitle title={props.pot.name} size="lg" theme={props.pot.theme} />}
             end={
-              <div onClick={() => userCtx.updateSection(props.name)}>
+              <div onClick={() => userCtx.updateSection(props.pot.name)}>
                 <Button type="ellipse"/>
               </div>
             }
           />
           <PotsProgressBar
             title="Total Saved"
-            total={props.total}
-            target={props.target}
-            theme={props.theme}
+            total={props.pot.total}
+            target={props.pot.target}
+            theme={props.pot.theme}
           />
           <div className="flex justify-between gap-4 mb-[14px]">
             <div className="flex flex-1" onClick={() => handleClick("Add Money")}>
@@ -50,7 +57,7 @@ const PotsCategorySummary = (props: {name: string, target: number, total: number
               <Button type="secondary" label="Withdraw" />
             </div>
           </div>
-          {(userCtx.section == props.name && userCtx.modalType == "") && <DropdownEditDelete />}
+          {(userCtx.section == props.pot.name && userCtx.modalType == "") && <DropdownEditDelete />}
         </div>
       </SectionWrapper>
     </>

@@ -19,6 +19,12 @@ import UserProgressContext from "../store/UserProgressContext";
 // Function:
 // -- Displays the amount spent vs amount free for a given budget category, both in text and via a progress bar.
 
+type budgetType = {
+  category: string,
+  maximum: number,
+  theme: string
+}
+
 type transactionType = {
   avatar: string,
   name: string,
@@ -28,17 +34,17 @@ type transactionType = {
   recurring: boolean
 }
 
-const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string, spending: transactionType[]} ) => {
+const BudgetsCategorySummary = ( props: {budget: budgetType, spending: transactionType[]} ) => {
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
 
-  const spent = finCtx.getBudgetSpendingByCat(props.cat, props.spending);
-  const avail = props.max - spent;
+  const spent = finCtx.getBudgetSpendingByCat(props.budget.category, props.spending);
+  const avail = props.budget.maximum - spent;
   let percentSpent = "";
-  if ((spent / props.max) * 100 > 100) {
+  if ((spent / props.budget.maximum) * 100 > 100) {
     percentSpent = '100%';
   } else {
-    percentSpent = ((spent / props.max) * 100).toString() + '%';
+    percentSpent = ((spent / props.budget.maximum) * 100).toString() + '%';
   }
 
   return (
@@ -46,25 +52,37 @@ const BudgetsCategorySummary = ( props: {cat: string, max: number, theme: string
       <SectionWrapper color="white">
         <div className="relative flex flex-col gap-5">
           <SectionHeading
-            start={<SectionTitle title={props.cat} size="lg" theme={props.theme} />}
-            end={<div onClick={() => userCtx.updateSection(props.cat)}><Button type="ellipse"/></div>}
+            start={<SectionTitle title={props.budget.category} size="lg" theme={props.budget.theme} />}
+            end={
+              <div onClick={() => userCtx.updateSection(props.budget.category)}>
+                <Button type="ellipse"/>
+              </div>
+            }
           />
-          <p className="text-preset4 text-p-grey500">Maximum of {finCtx.formatWithCents(props.max)}</p>
+          <p className="text-preset4 text-p-grey500">Maximum of {finCtx.formatWithCents(props.budget.maximum)}</p>
           <div className="h-8 bg-p-beige100 rounded-[4px] p-1">
-            <div className={`${finCtx.getColorVar(props.theme)} h-full rounded-[4px]`} style={{ width: percentSpent }} />
+            <div className={`${finCtx.getColorVar(props.budget.theme)} h-full rounded-[4px]`} style={{ width: percentSpent }} />
           </div>
           <div className="flex">
             <div className="flex-1">
-              <CategorySummary name="Spent" total={finCtx.formatWithCents(spent)} theme={props.theme} />
+              <CategorySummary
+                name="Spent"
+                total={finCtx.formatWithCents(spent)}
+                theme={props.budget.theme}
+              />
             </div>
             <div className="flex-1">
-              <CategorySummary name="Free" total={avail < 0 ? finCtx.formatWithCents(0) : finCtx.formatWithCents(avail)} theme="free" />
+              <CategorySummary
+                name="Free"
+                total={avail < 0 ? finCtx.formatWithCents(0) : finCtx.formatWithCents(avail)}
+                theme="free"
+              />
             </div>
           </div>
-          <BudgetsCategorySpending cat={props.cat} />
-          {userCtx.section == props.cat && <DropdownEditDelete />}
-          {(userCtx.section == props.cat && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={finCtx.getBudget(props.cat)} /></Modal>}
-          {(userCtx.section == props.cat && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.cat} /></Modal>}
+          <BudgetsCategorySpending cat={props.budget.category} />
+          {userCtx.section == props.budget.category && <DropdownEditDelete />}
+          {(userCtx.section == props.budget.category && userCtx.modalType == "Edit" ) && <Modal><EditBudgetModal budget={props.budget} /></Modal>}
+          {(userCtx.section == props.budget.category && userCtx.modalType == "Delete") && <Modal><DeleteModal name={props.budget.category} /></Modal>}
         </div>
       </SectionWrapper>
     </>

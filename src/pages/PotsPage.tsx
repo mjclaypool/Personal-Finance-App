@@ -27,21 +27,20 @@ const PotsPage = () => {
     <div className="relative flex flex-col gap-8">
       <PageHeading
         pageTitle="Pots"
-        button={<div onClick={() => userCtx.updateModalType("Add New")}><Button label="+ Add New Pot" type="primary"/></div>}
+        button={
+          <div onClick={() => userCtx.updateModalType("Add New")}>
+            <Button label="+ Add New Pot" type="primary"/>
+          </div>
+        }
       />
       <div className="flex flex-col gap-6 xl:flex-row xl:flex-wrap">
         {finCtx.pots.map((pot) => (
           <div key={pot.name} className="xl:flex-1 xl:min-w-[430px]">
-            <PotsCategorySummary
-              name={pot.name}
-              target={pot.target}
-              total={pot.total}
-              theme={pot.theme}
-            />
-            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <Modal><EditPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
+            <PotsCategorySummary pot={pot} />
+            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <Modal><EditPotModal pot={pot} /></Modal>}
             {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <Modal><DeleteModal name={pot.name} /></Modal>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <Modal><AddToPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <Modal><WithdrawFromPotModal pot={finCtx.getPot(pot.name)} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <Modal><AddToPotModal pot={pot} /></Modal>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <Modal><WithdrawFromPotModal pot={pot} /></Modal>}
           </div>
         ))}
       </div>

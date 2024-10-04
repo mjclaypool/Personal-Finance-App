@@ -25,19 +25,18 @@ const BudgetsPage = () => {
     <div className="flex flex-col gap-8">
       <PageHeading
         pageTitle="Budgets"
-        button={<div onClick={() => userCtx.updateModalType("Add New")}><Button label="+ Add New Budget" type="primary"/></div>}
+        button={
+          <div onClick={() => userCtx.updateModalType("Add New")}>
+            <Button label="+ Add New Budget" type="primary"/>
+          </div>
+        }
       />
       <div className="flex flex-col xl:flex-row gap-6">
         <BudgetSpendingSummary spending={budgetSpending} />
         <div className="flex flex-col gap-6 xl:flex-1">
           {finCtx.budgets.map((budget) => (
             <div key={budget.category}>
-              <BudgetsCategorySummary
-                cat={budget.category}
-                max={budget.maximum}
-                theme={budget.theme}
-                spending={budgetSpending}
-              />
+              <BudgetsCategorySummary budget={budget} spending={budgetSpending} />
             </div>
           ))}
         </div>

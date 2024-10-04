@@ -19,6 +19,13 @@ type transactionProps = {
 const TransactionItem = (props: transactionProps) => {
   const finCtx = useContext(FinanceContext);
 
+  let amount = finCtx.formatWithCents(props.amount);
+  let amountTextColor = "text-p-grey900";
+  if (props.amount > 0) {
+    amountTextColor = "text-s-green";
+    amount = "+" + amount;
+  }
+
   return (
     <div className="flex justify-between items-center md:gap-8">
       <div className="flex items-center gap-4 md:flex-1">
@@ -29,8 +36,7 @@ const TransactionItem = (props: transactionProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-1 items-end md:flex-row-reverse md:items-center md:gap-8">
-        {props.amount > 0 && <p className="text-preset4 text-s-green font-bold md:text-end md:w-[88px] xl:w-[200px]">+{finCtx.formatWithCents(props.amount)}</p>}
-        {props.amount <= 0 && <p className="text-preset4 text-p-grey900 font-bold md:text-end md:w-[88px] xl:w-[200px]">{finCtx.formatWithCents(props.amount)}</p>}
+        <p className={`text-preset4 ${amountTextColor} font-bold md:text-end md:w-[88px] xl:w-[200px]`}>{amount}</p>
         <p className="text-preset5 text-p-grey500 md:w-[88px] xl:w-[120px]">{finCtx.formatDate(props.date)}</p>
       </div>
     </div>
