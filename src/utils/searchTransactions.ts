@@ -12,7 +12,7 @@ export function searchTransactions(transactions: transactionType[], rule: string
   if (rule !== "") {
     let filteredArray = [];
     for (let i=0; i<transactions.length; i++) {
-      if (transactions[i].name.substring(0, rule.length) == rule) {
+      if (transactions[i].name.substring(0, rule.length).toUpperCase() == rule.toUpperCase()) {
         filteredArray.push(transactions[i]);
       }
     }
