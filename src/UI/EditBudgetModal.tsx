@@ -4,6 +4,7 @@ import Button from "./Button";
 import ColorsDropdown from "./ColorsDropdown";
 import FinanceContext from "../store/FinanceContext";
 import InputField from "./InputField";
+import InputFieldReadOnly from "./InputFieldReadOnly";
 import UserProgressContext from "../store/UserProgressContext";
 import PageHeading from "./PageHeading";
 
@@ -15,10 +16,16 @@ type budgetType = {
   theme: string
 }
 
+type errorType = {
+  maximum: boolean
+}
+
 const EditBudgetModal = (props: {budget: budgetType}) => {
-  const [updatedBudget, setUpdatedBudget] = useState<budgetType>(props.budget);
   const finCtx = useContext(FinanceContext);
   const userCtx = useContext(UserProgressContext);
+  const [updatedBudget, setUpdatedBudget] = useState<budgetType>(props.budget);
+  const [errors, setErrors] = useState<errorType>({maximum: false});
+
   const pageTitle = userCtx.modalType + " " + userCtx.page.substring(0, userCtx.page.length-1);
   const editText = "As your budgets change, feel free to update your spending limits.";
 
@@ -41,10 +48,21 @@ const EditBudgetModal = (props: {budget: budgetType}) => {
   }
 
   function handleChangeMaximum(value: string) {
-    setUpdatedBudget(prevState => ({
-      ...prevState,
-      maximum: Number(value)
-    }))
+    if (value.match(/^[0-9]+$/) && Number(value) > 0) {
+      setUpdatedBudget(prevState => ({
+        ...prevState,
+        maximum: Number(value)
+      }))
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: false
+      }));
+    } else {
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: true
+      }));
+    }
   }
 
   function handleChangeTheme(colorCode: string) {
@@ -55,8 +73,16 @@ const EditBudgetModal = (props: {budget: budgetType}) => {
   }
 
   function handleSubmit() {
-    finCtx.updateBudgets(updatedBudget);
-    handleCloseModal();
+    if (errors.maximum || updatedBudget.maximum <= 0) {
+      setErrors(prevState => ({
+        ...prevState,
+        maximum: true
+      }));
+    }
+    if ((errors.maximum == false && updatedBudget.maximum !== 0)) {
+      finCtx.updateBudgets(updatedBudget);
+      handleCloseModal();
+    }
   }
 
   return (
@@ -66,22 +92,11 @@ const EditBudgetModal = (props: {budget: budgetType}) => {
         button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
       />
       <p className="text-preset4 text-p-grey500">{editText}</p>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Budget Category</h2>
-        <div className="flex items-center h-full bg-white border-[1px] border-p-beige500 rounded-lg">
-          <div className="relative flex flex-col flex-1 bg-white rounded-lg text-preset4 text-p-grey900">
-            <input
-              type="text"
-              className="text-p-grey900 rounded-lg outline-none px-250 py-[10px]"
-              value={props.budget.category}
-              readOnly
-            />
-          </div>
-        </div>
-      </div>
+      <InputFieldReadOnly label="Budget Category" value={props.budget.category} />
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
-        <InputField placeholder={(props.budget.maximum).toString()} editValue={true} didChange={handleChangeMaximum} />
+        <InputField initialValue={(props.budget.maximum).toString()} didChange={handleChangeMaximum} />
+        {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
       </div>
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
