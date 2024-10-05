@@ -114,9 +114,7 @@ const AddBudgetModal = () => {
       <div className="flex flex-col gap-1">
         <h2 className="text-preset5 text-p-grey500 font-bold">Budget Category</h2>
         <DropdownWrapper selected={selectedCategory} width="w-full" didToggle={handleToggle}>
-          <>
-            {dropdownIsOpen && <DropdownOptions options={getCategoryOptions()} didSelect={handleChangeCategory} />}
-          </>
+          <DropdownOptions open={dropdownIsOpen} options={getCategoryOptions()} didSelect={handleChangeCategory} />
         </DropdownWrapper>
       </div>
       <div className="flex flex-col gap-1">

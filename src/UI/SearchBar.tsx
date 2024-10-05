@@ -1,4 +1,4 @@
-import Dropdown from "./Dropdown";
+import DropdownSortFilter from "./DropdownSortFilter";
 
 import searchIcon from "../assets/images/icon-search.svg";
 
@@ -19,8 +19,8 @@ const SearchBar = (props: {didChange: (rule: string) => void, sort?: boolean, fi
           <img src={searchIcon} alt="Search Icon" className="absolute top-[50%] -translate-y-[50%] right-5" />
       </div>
       <div className="flex items-center gap-6">
-        {props.sort && <Dropdown label="Sort by" initial="Latest" />}
-        {props.filter && <Dropdown label="Category" initial="All Transactions" filter={true} />}
+        {props.sort && <DropdownSortFilter label="Sort by" initial="Latest" />}
+        {props.filter && <DropdownSortFilter label="Category" initial="All Transactions" filter={true} />}
       </div>
     </div>
   )
