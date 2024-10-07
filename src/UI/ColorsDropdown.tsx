@@ -34,19 +34,19 @@ const ColorsDropdown = (props: {initialName?: string, initialColor?: string, did
 
   return (
     <div className="relative flex items-center h-full bg-white border-[1px] border-p-beige500 rounded-lg pointer-events-none">
-      <div className="flex flex-col flex-1 px-250 pr-500 py-[10px] bg-white rounded-lg text-preset4 text-p-grey900 pointer-events-auto" onClick={toggleDropdown}>
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col flex-1 bg-white rounded-lg text-preset4 text-p-grey900 pointer-events-auto cursor-pointer">
+        <button className="flex items-center w-full gap-3 px-250 py-[10px]" onClick={toggleDropdown}>
           <div className={`${selectedColor} h-4 w-4 rounded-full`}/>
-          <p>{selectedName}</p>
-        </div>
+          {selectedName}
+        </button>
         {dropdownIsOpen == true &&
           <div className="absolute z-10 w-full max-h-[212px] top-14 right-0 flex flex-col bg-white rounded-lg py-150 px-250 shadow-dropdown overflow-y-scroll">
             {colorOptions.map((option) => (
               <div key={option.name}>
-                <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleChange(option)}>
+                <button className="flex items-center w-full gap-3 cursor-pointer" onClick={() => handleChange(option)}>
                   <div className={`${option.color} h-4 w-4 rounded-full`}/>
-                  <p>{option.name}</p>
-                </div>
+                  {option.name}
+                </button>
                 {colorOptions.indexOf(option) < (colorOptions.length - 1) &&
                   <div className="h-[1px] bg-p-grey500 bg-opacity-15 my-3"/>
                 }

@@ -56,6 +56,7 @@ const AddBudgetModal = () => {
       category: option
     }))
     setSelectedCategory(option);
+    handleToggle();
   }
 
   function handleChangeMaximum(value: string) {

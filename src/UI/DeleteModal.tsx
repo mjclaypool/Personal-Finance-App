@@ -37,7 +37,7 @@ const DeleteModal = (props: {name: string}) => {
       <div onClick={handleDelete} className="flex">
         <Button type="destroy" label="Yes, Confirm Deletion" />
       </div>
-      <p className="text-preset4 text-p-grey500 text-center cursor-pointer" onClick={handleCloseModal}>No, Go Back</p>
+      <button type="button" className="text-preset4 text-p-grey500 text-center cursor-pointer" onClick={handleCloseModal}>No, Go Back</button>
     </div>
   )
 }

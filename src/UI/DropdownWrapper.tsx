@@ -6,11 +6,9 @@ const DropdownWrapper = (props: {selected: string, width: string, didToggle: () 
   return (
     <div className={`relative flex items-center h-full ${props.width} bg-white border-[1px] border-p-beige500 rounded-lg pointer-events-none`}>
       <div
-        className="flex flex-col flex-1 py-[10px] bg-white rounded-lg text-preset4 text-p-grey900 pointer-events-auto cursor-pointer"
-        onClick={props.didToggle}
-      >
+        className="flex flex-col flex-1 bg-white rounded-lg text-preset4 text-p-grey900 pointer-events-auto cursor-pointer">
         <div className="relative">
-          <p className="px-250 pr-500">{props.selected}</p>
+          <button type="button" className="w-full h-full text-start px-250 py-[10px]" onClick={props.didToggle}>{props.selected}</button>
           {props.children}
         </div>
       </div>

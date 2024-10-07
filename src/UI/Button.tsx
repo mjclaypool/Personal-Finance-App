@@ -28,9 +28,9 @@ const Button = (props: {label?: string, type: string}) => {
         </button>
       }
       {props.type == "ellipse" &&
-        <div>
+        <button type="button" aria-label="See options dropdown">
           <img src={ellipsisIcon} alt="ellipsis icon" className="cursor-pointer py-100" />
-        </div>
+        </button>
       }
     </>
   )
