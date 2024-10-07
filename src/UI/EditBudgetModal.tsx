@@ -5,8 +5,9 @@ import ColorsDropdown from "./ColorsDropdown";
 import FinanceContext from "../store/FinanceContext";
 import InputField from "./InputField";
 import InputFieldReadOnly from "./InputFieldReadOnly";
-import UserProgressContext from "../store/UserProgressContext";
+import ModalWrapper from "./ModalWrapper";
 import PageHeading from "./PageHeading";
+import UserProgressContext from "../store/UserProgressContext";
 
 import closeIcon from "../assets/images/icon-close-modal.svg";
 
@@ -86,26 +87,28 @@ const EditBudgetModal = (props: {budget: budgetType}) => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <PageHeading
-        pageTitle={pageTitle}
-        button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
-      />
-      <p className="text-preset4 text-p-grey500">{editText}</p>
-      <InputFieldReadOnly label="Budget Category" value={props.budget.category} />
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
-        <InputField initialValue={(props.budget.maximum).toString()} didChange={handleChangeMaximum} />
-        {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
-        <ColorsDropdown initialName={getColorName()} initialColor={getColor()} didChange={handleChangeTheme} />
-      </div>
-      <div onClick={handleSubmit} className="flex">
-        <Button type="primary" label="Save Changes" />
-      </div>
-    </div>
+    <ModalWrapper openModal={userCtx.modalType == "Edit " + userCtx.page} closeModal={handleCloseModal}>
+      <>
+        <PageHeading
+          pageTitle={pageTitle}
+          button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
+        />
+        <p className="text-preset4 text-p-grey500">{editText}</p>
+        <InputFieldReadOnly label="Budget Category" value={props.budget.category} />
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
+          <InputField initialValue={(props.budget.maximum).toString()} didChange={handleChangeMaximum} />
+          {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
+          <ColorsDropdown initialName={getColorName()} initialColor={getColor()} didChange={handleChangeTheme} />
+        </div>
+        <div onClick={handleSubmit} className="flex">
+          <Button type="primary" label="Save Changes" />
+        </div>
+      </>
+    </ModalWrapper>
   )
 }
 

@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 
+import ModalWrapper from "./ModalWrapper";
 import Button from "./Button";
 import ColorsDropdown from "./ColorsDropdown";
 import DropdownOptions from "./DropdownOptions";
@@ -106,31 +107,33 @@ const AddBudgetModal = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <PageHeading
-        pageTitle={pageTitle}
-        button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
-      />
-      <p className="text-preset4 text-p-grey500">{addText}</p>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Budget Category</h2>
-        <DropdownWrapper selected={selectedCategory} width="w-full" didToggle={handleToggle}>
-          <DropdownOptions open={dropdownIsOpen} options={getCategoryOptions()} didSelect={handleChangeCategory} />
-        </DropdownWrapper>
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
-        <InputField placeholder="e.g. 2000" didChange={handleChangeMaximum} />
-        {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
-        <ColorsDropdown didChange={handleChangeTheme} />
-      </div>
-      <div onClick={handleSubmit} className="flex">
-        <Button type="primary" label="Add Budget" />
-      </div>
-    </div>
+    <ModalWrapper openModal={userCtx.modalType == "Add New Budget"} closeModal={handleCloseModal}>
+      <>
+        <PageHeading
+          pageTitle={pageTitle}
+          button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
+        />
+        <p className="text-preset4 text-p-grey500">{addText}</p>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Budget Category</h2>
+          <DropdownWrapper selected={selectedCategory} width="w-full" didToggle={handleToggle}>
+            <DropdownOptions open={dropdownIsOpen} options={getCategoryOptions()} didSelect={handleChangeCategory} />
+          </DropdownWrapper>
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Maximum Spend</h2>
+          <InputField placeholder="e.g. 2000" didChange={handleChangeMaximum} />
+          {errors.maximum && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
+          <ColorsDropdown didChange={handleChangeTheme} />
+        </div>
+        <div onClick={handleSubmit} className="flex">
+          <Button type="primary" label="Add Budget" />
+        </div>
+      </>
+    </ModalWrapper>
   )
 }
 

@@ -4,6 +4,7 @@ import Button from "./Button";
 import ColorsDropdown from "./ColorsDropdown";
 import FinanceContext from "../store/FinanceContext";
 import InputField from "./InputField";
+import ModalWrapper from "./ModalWrapper";
 import PageHeading from "./PageHeading";
 import UserProgressContext from "../store/UserProgressContext";
 
@@ -27,7 +28,7 @@ const AddPotModal = () => {
   const [newPot, setNewPot] = useState<potType>({name: "", target: 0, total: 0, theme: "#277C78"});
   const [errors, setErrors] = useState<errorType>({name: false, target: false});
 
-  const pageTitle = userCtx.modalType + " " + userCtx.page.substring(0, userCtx.page.length-1);
+  const pageTitle = userCtx.modalType;
   const addText = "Create a pot to set savings targets. These can help keep you on track as you save for special purchases.";
 
   function handleCloseModal() {
@@ -98,30 +99,32 @@ const AddPotModal = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <PageHeading
-        pageTitle={pageTitle}
-        button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
-      />
-      <p className="text-preset4 text-p-grey500">{addText}</p>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Pot Name</h2>
-        <InputField placeholder="e.g. Rainy Days" plainText={true} didChange={handleChangeName} />
-        {errors.name && <p className="text-preset5 text-p-grey500 self-end">Must enter a name.</p>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Target</h2>
-        <InputField placeholder="e.g. 2000" didChange={handleChangeTarget} />
-        {errors.target && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
-        <ColorsDropdown didChange={handleChangeTheme} />
-      </div>
-      <div onClick={handleSubmit} className="flex">
-        <Button type="primary" label="Add Pot" />
-      </div>
-    </div>
+    <ModalWrapper openModal={userCtx.modalType == "Add New Pot"} closeModal={handleCloseModal}>
+      <>
+        <PageHeading
+          pageTitle={pageTitle}
+          button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
+        />
+        <p className="text-preset4 text-p-grey500">{addText}</p>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Pot Name</h2>
+          <InputField placeholder="e.g. Rainy Days" plainText={true} didChange={handleChangeName} />
+          {errors.name && <p className="text-preset5 text-p-grey500 self-end">Must enter a name.</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Target</h2>
+          <InputField placeholder="e.g. 2000" didChange={handleChangeTarget} />
+          {errors.target && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
+          <ColorsDropdown didChange={handleChangeTheme} />
+        </div>
+        <div onClick={handleSubmit} className="flex">
+          <Button type="primary" label="Add Pot" />
+        </div>
+      </>
+    </ModalWrapper>
   )
 }
 

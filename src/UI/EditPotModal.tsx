@@ -5,6 +5,7 @@ import ColorsDropdown from "./ColorsDropdown";
 import FinanceContext from "../store/FinanceContext";
 import InputField from "./InputField";
 import InputFieldReadOnly from "./InputFieldReadOnly";
+import ModalWrapper from "./ModalWrapper";
 import PageHeading from "./PageHeading";
 import UserProgressContext from "../store/UserProgressContext";
 
@@ -27,7 +28,7 @@ const EditPotModal = (props: {pot: potType}) => {
   const [updatedPot, setUpdatedPot] = useState<potType>(props.pot);
   const [errors, setErrors] = useState<errorType>({target: false});
 
-  const pageTitle = userCtx.modalType + " " + userCtx.page.substring(0, userCtx.page.length-1);
+  const pageTitle = userCtx.modalType.substring(0, userCtx.modalType.length-1);
   const editText = "If your saving targets change, feel free to update your pots.";
 
   function getColorName() {
@@ -87,26 +88,28 @@ const EditPotModal = (props: {pot: potType}) => {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <PageHeading
-        pageTitle={pageTitle}
-        button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
-      />
-      <p className="text-preset4 text-p-grey500">{editText}</p>
-      <InputFieldReadOnly label="Pot Name" value={props.pot.name} />
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Target</h2>
-        <InputField initialValue={(props.pot.target).toString()} didChange={handleChangeTarget} />
-        {errors.target && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
-      </div>
-      <div className="flex flex-col gap-1">
-        <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
-        <ColorsDropdown initialName={getColorName()} initialColor={getColor()} didChange={handleChangeTheme} />
-      </div>
-      <div onClick={handleSubmit} className="flex">
-        <Button type="primary" label="Save Changes" />
-      </div>
-    </div>
+    <ModalWrapper openModal={userCtx.modalType == "Edit " + userCtx.page} closeModal={handleCloseModal}>
+      <>
+        <PageHeading
+          pageTitle={pageTitle}
+          button={<img src={closeIcon} alt="Close modal" className="cursor-pointer" onClick={handleCloseModal} />}
+        />
+        <p className="text-preset4 text-p-grey500">{editText}</p>
+        <InputFieldReadOnly label="Pot Name" value={props.pot.name} />
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Target</h2>
+          <InputField initialValue={(props.pot.target).toString()} didChange={handleChangeTarget} />
+          {errors.target && <p className="text-preset5 text-p-grey500 self-end">Must enter a number greater than 0.</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <h2 className="text-preset5 text-p-grey500 font-bold">Theme</h2>
+          <ColorsDropdown initialName={getColorName()} initialColor={getColor()} didChange={handleChangeTheme} />
+        </div>
+        <div onClick={handleSubmit} className="flex">
+          <Button type="primary" label="Save Changes" />
+        </div>
+      </>
+    </ModalWrapper>
   )
 }
 

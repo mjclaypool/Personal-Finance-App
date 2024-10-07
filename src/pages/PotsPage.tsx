@@ -1,16 +1,14 @@
 import { useContext } from "react";
 
 import AddPotModal from "../UI/AddPotModal";
-import AddToPotModal from "../UI/AddToPotModal";
 import Button from "../UI/Button";
 import DeleteModal from "../UI/DeleteModal";
 import EditPotModal from "../UI/EditPotModal";
 import FinanceContext from "../store/FinanceContext";
-import ModalWrapper from "../UI/ModalWrapper";
+import ModalAddWithdrawPot from "../UI/ModalAddWithdrawPot";
 import PageHeading from "../UI/PageHeading";
 import PotsCategorySummary from "../components/PotsCategorySummary";
 import UserProgressContext from "../store/UserProgressContext";
-import WithdrawFromPotModal from "../UI/WithdrawFromPotModal";
 
 // Pots Page
 //
@@ -28,7 +26,7 @@ const PotsPage = () => {
       <PageHeading
         pageTitle="Pots"
         button={
-          <div onClick={() => userCtx.updateModalType("Add New")}>
+          <div onClick={() => userCtx.updateModalType("Add New Pot")}>
             <Button label="+ Add New Pot" type="primary"/>
           </div>
         }
@@ -37,14 +35,14 @@ const PotsPage = () => {
         {finCtx.pots.map((pot) => (
           <div key={pot.name} className="xl:flex-1 xl:min-w-[430px]">
             <PotsCategorySummary pot={pot} />
-            {(userCtx.section == pot.name && userCtx.modalType == "Edit") && <ModalWrapper><EditPotModal pot={pot} /></ModalWrapper>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <ModalWrapper><DeleteModal name={pot.name} /></ModalWrapper>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <ModalWrapper><AddToPotModal pot={pot} /></ModalWrapper>}
-            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <ModalWrapper><WithdrawFromPotModal pot={pot} /></ModalWrapper>}
+            {(userCtx.section == pot.name && userCtx.modalType == "Edit " + userCtx.page) && <EditPotModal pot={pot} />}
+            {(userCtx.section == pot.name && userCtx.modalType == "Delete") && <DeleteModal name={pot.name} />}
+            {(userCtx.section == pot.name && userCtx.modalType == "Add Money") && <ModalAddWithdrawPot pot={pot} />}
+            {(userCtx.section == pot.name && userCtx.modalType == "Withdraw") && <ModalAddWithdrawPot pot={pot} />}
           </div>
         ))}
       </div>
-      {userCtx.modalType == "Add New" && <ModalWrapper><AddPotModal /></ModalWrapper>}
+      {userCtx.modalType == "Add New Pot" && <AddPotModal />}
     </div>
   )
 }
